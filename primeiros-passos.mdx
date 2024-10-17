@@ -21,8 +21,8 @@ description: 'Vamos configurar o servidor e as instancias'
     procedure TForm1.FormShow(Sender: TObject);
     begin
       ApiEuAtendo1.VersionAPI := TVersionOption.V1; // Definir a versão da API
-      edtApiGlobal.Text := 'ASD3F21APIDEVS6A5SPAULOJRDEVFA1'; // Chave Global API
-      edtUrl.Text := 'https://apiv1demo.apidevs.app'; // URL do servidor
+      ApiEuAtendo1.GlobalAPI := 'ASD3F21APIDEVS6A5SPAULOJRDEVFA1'; // Chave Global API
+      ApiEuAtendo1.EvolutionApiURL := 'https://apiv1demo.apidevs.app'; // URL do servidor
     end;
     ```
   </Accordion>
