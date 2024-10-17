@@ -83,7 +83,7 @@ description: 'Vamos configurar o servidor e as instancias'
   <AccordionGroup>
 
   <Accordion icon="message-bot" title="Enviando uma mensagem de texto">
-    Para enviar uma mensagem de texto simples utilizando o componente **euAtendo**, você deve usar a função `EnviarTexto`. Certifique-se de que a instância está criada e conectada antes de realizar o envio.
+    Para enviar uma mensagem de texto simples utilizando o componente **euAtendo**, você deve usar a função `EnviarMensagemDeTexto`. Certifique-se de que a instância está criada e conectada antes de realizar o envio.
 
     Exemplo de como enviar uma mensagem de texto:
 
@@ -92,7 +92,7 @@ description: 'Vamos configurar o servidor e as instancias'
       ErrorMsg: string;
     begin
       // Enviar mensagem de texto para um número específico
-      if not ApiEuAtendo1.EnviarTexto('+5511999999999', 'Olá! Como posso ajudar?', ErrorMsg) then
+      if not ApiEuAtendo1.EnviarMensagemDeTexto('+5511999999999', 'Olá! Como posso ajudar?', ErrorMsg) then
       begin
         ShowMessage('Erro ao enviar mensagem: ' + ErrorMsg);
         Exit;
