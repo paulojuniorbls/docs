@@ -1,34 +1,26 @@
 ---
 title: 'Primeiros passos'
-description: 'Vamos entender como tirar o melhor do euAtendo API'
+description: 'Vamos configurar o servidor e as instancias'
 ---
 
-## Setup your development
-
-Compativel com versões apartir das 10.3.
-
-### Edit and preview
+### Acesso ao servidor e instancias
 
 <AccordionGroup>
-  <Accordion icon="github" title="Clone your docs locally">
-    During the onboarding process, we created a repository on your Github with
-    your docs content. You can find this repository on our
-    [dashboard](https://dashboard.mintlify.com). To clone the repository
-    locally, follow these
-    [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-    in your terminal.
+  <Accordion icon="github" title="Autenticando o servidor da API">
+    voce precisa passar para o componente o servidor URL e a GlobalAPI antes de usar as funções, pode fixar esses 2 valores no seu fonte, pois o mesmo não ira mudar
+    se voce não tem um servidor privado ainda, pode usar e testar com o servidor ```COMUNITARIO DISPONIVEL```
+	ApiGlobal** ASD3F21APIDEVS6A5SPAULOJRDEVFA1
+    endPoint** https://apiv1demo.apidevs.app
+    Manager** https://apiv1demo.apidevs.app/manager 
   </Accordion>
-  <Accordion icon="rectangle-terminal" title="Preview changes">
-    Previewing helps you make sure your changes look as intended. We built a
-    command line interface to render these changes locally. 1. Install the
-    [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
-    documentation changes locally with this command: ``` npm i -g mintlify ```
-    2. Run the following command at the root of your documentation (where
-    `mint.json` is): ``` mintlify dev ```
+  <Accordion icon="rectangle-terminal" title="Instancias ```Celulares de clientes```">
+    Cada instancia representa um dispositivo conectado, pode ser da mesma empresa ou empresas diferentes, 
+	sempre que uma instancia é criada voce deve obrigatoriamente salvar seu nome e senha para uso futuro, assim, 
+	sempre que iniciar seu ERP voce passa os valores ao componente na inicialização dele
   </Accordion>
 </AccordionGroup>
 
-### Deploy your changes
+### Metodos e funções
 
 <AccordionGroup>
 
