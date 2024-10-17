@@ -1,86 +1,37 @@
 ---
-title: 'Instalando'
-description: 'A instalação do componente leva menos de 2 minutos'
+title: Instalando o Componente euAtendo
+description: 'Aprenda como configurar o euAtendo e integrá-lo ao seu projeto Delphi.'
 ---
 
-## Setup your development
+## Instalação do Componente euAtendo
 
-Compativel com versões apartir das 10.3.
+Para instalar o componente *euAtendo*, siga os passos abaixo:
 
-### Edit and preview
+### 1. Baixar e copiar os arquivos
 
-<AccordionGroup>
-  <Accordion icon="github" title="Clone your docs locally">
-    During the onboarding process, we created a repository on your Github with
-    your docs content. You can find this repository on our
-    [dashboard](https://dashboard.mintlify.com). To clone the repository
-    locally, follow these
-    [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-    in your terminal.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Preview changes">
-    Previewing helps you make sure your changes look as intended. We built a
-    command line interface to render these changes locally. 1. Install the
-    [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
-    documentation changes locally with this command: ``` npm i -g mintlify ```
-    2. Run the following command at the root of your documentation (where
-    `mint.json` is): ``` mintlify dev ```
-  </Accordion>
-</AccordionGroup>
+1. Baixe os arquivos do repositório oficial no GitHub: [euAtendoWhatsDelphi](https://github.com/paulojuniorbls/euAtendoWhatsDelphi).
+2. Copie os arquivos para um diretório de sua preferência no seu sistema, onde você guarda seus componentes.
 
-### Deploy your changes
+### 2. Instalar o pacote no Delphi
 
-<AccordionGroup>
+1. Abra o **Delphi**.
+2. Navegue até a pasta onde os arquivos foram salvos:
+3. Abra o DPK
+   - Faça o  `build` e depois `install`.
 
-<Accordion icon="message-bot" title="Install our Github app">
-  Our Github app automatically deploys your changes to your docs site, so you
-  don't need to manage deployments yourself. You can find the link to install on
-  your [dashboard](https://dashboard.mintlify.com). Once the bot has been
-  successfully installed, there should be a check mark next to the commit hash
-  of the repo.
-</Accordion>
-<Accordion icon="rocket" title="Push your changes">
-  [Commit and push your changes to
-  Git](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push)
-  for your changes to update in your docs site. If you push and don't see that
-  the Github app successfully deployed your changes, you can also manually
-  update your docs through our [dashboard](https://dashboard.mintlify.com).
-</Accordion>
+### 3. Adicionar o caminho das units ao Delphi
 
-</AccordionGroup>
+1. No Delphi, vá em **Tools > Options...**.
+2. Em **Environment Options > Delphi Options > Library**, adicione o caminho onde os arquivos do *euAtendo* estão localizados.
 
-## Update your docs
+   > **Dica:** Certifique-se de adicionar o caminho correto da pasta para garantir que todas as units sejam localizadas corretamente durante o desenvolvimento.
 
-Add content directly in your files with MDX syntax and React components. You can use any of our components, or even build your own.
+## Próximos Passos
 
-<CardGroup>
+Agora que você instalou o componente, pode continuar para a próxima etapa de configuração inicial e enviar suas primeiras mensagens. Confira nosso guia **[Primeiros Passos](../essentials/primeiros-passos)** para mais detalhes!
 
-<Card title="Style Your Docs" icon="paintbrush" href="/settings/global">
-  Add flair to your docs with personalized branding.
-</Card>
+---
 
-<Card
-  title="Add API Endpoints"
-  icon="square-code"
-  href="/api-playground/configuration"
->
-  Implement your OpenAPI spec and enable API user interaction.
-</Card>
+### Precisa de ajuda?
 
-<Card
-  title="Integrate Analytics"
-  icon="chart-mixed"
-  href="/analytics/supported-integrations"
->
-  Draw insights from user interactions with your documentation.
-</Card>
-
-<Card
-  title="Host on a Custom Domain"
-  icon="browser"
-  href="/settings/custom-domain/subdomain"
->
-  Keep your docs on your own website's subdomain.
-</Card>
-
-</CardGroup>
+Se você encontrar qualquer dificuldade, entre em contato com nosso suporte técnico ou grupo do whatsApp a [ENTRAR NO GRUPO](https://chat.whatsapp.com/DxuXCabArWdLZZBhx5wb1r).
