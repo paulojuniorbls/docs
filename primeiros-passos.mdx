@@ -7,18 +7,72 @@ description: 'Vamos configurar o servidor e as instancias'
 
 <AccordionGroup>
   <Accordion icon="github" title="Autenticando o servidor da API">
-    voce precisa passar para o componente o servidor URL e a GlobalAPI antes de usar as funções, pode fixar esses 2 valores no seu fonte, pois o mesmo não ira mudar
-    se voce não tem um servidor privado ainda, pode usar e testar com o servidor ```COMUNITARIO DISPONIVEL```
-	ApiGlobal** ASD3F21APIDEVS6A5SPAULOJRDEVFA1
-    endPoint** https://apiv1demo.apidevs.app
-    Manager** https://apiv1demo.apidevs.app/manager 
+    Para usar o componente euAtendo, é necessário definir o servidor URL e a GlobalAPI antes de utilizar as funções. Esses valores podem ser fixados no seu código, pois geralmente não mudam.
+
+    Caso ainda não possua um servidor privado, você pode testar utilizando o servidor **COMUNITÁRIO DISPONÍVEL**:
+
+    - **ApiGlobal:** ASD3F21APIDEVS6A5SPAULOJRDEVFA1
+    - **endPoint:** https://apiv1demo.apidevs.app
+    - **Manager:** https://apiv1demo.apidevs.app/manager
+
+    Abaixo segue um exemplo de como configurar esses valores no evento **onShow** do formulário em Delphi:
+
+    ```delphi
+    procedure TForm1.FormShow(Sender: TObject);
+    begin
+      ApiEuAtendo1.VersionAPI := TVersionOption.V1; // Definir a versão da API
+      edtApiGlobal.Text := 'ASD3F21APIDEVS6A5SPAULOJRDEVFA1'; // Chave Global API
+      edtUrl.Text := 'https://apiv1demo.apidevs.app'; // URL do servidor
+    end;
+    ```
   </Accordion>
-  <Accordion icon="rectangle-terminal" title="Instancias ```Celulares de clientes```">
-    Cada instancia representa um dispositivo conectado, pode ser da mesma empresa ou empresas diferentes, 
-	sempre que uma instancia é criada voce deve obrigatoriamente salvar seu nome e senha para uso futuro, assim, 
-	sempre que iniciar seu ERP voce passa os valores ao componente na inicialização dele
+
+  <Accordion icon="rectangle-terminal" title="Instâncias 'Celulares de Clientes'">
+    Cada instância representa um dispositivo conectado (por exemplo, o celular de um cliente). Pode ser utilizado para uma única empresa ou para diferentes empresas. 
+
+    Sempre que uma instância é criada, é obrigatório salvar o nome e a senha da instância para uso futuro. Dessa forma, sempre que o ERP for inicializado, os valores serão passados ao componente durante a sua inicialização.
+
+    Antes de chamar a função **CriarInstancia**, é necessário passar dois parâmetros ao componente:
+
+    ```delphi
+    ApiEuAtendo1.NomeInstancia := edtNome.Text; // Nome da instância
+    ApiEuAtendo1.ChaveApi      := edtSenha.Text; // Chave API da instância (Opcional)
+    ```
+
+    A criação de uma instância pode ser feita da seguinte forma:
+
+    ```delphi
+    var
+      ErrorMsg: string;
+    begin
+      if not ApiEuAtendo1.CriarInstancia(ErrorMsg) then
+      begin
+        ShowMessage('Erro ao criar instância: ' + ErrorMsg);
+        Exit;
+      end;
+    end;
+    ```
+
+    Após chamar a função para criar a instância, é necessário implementar o evento que será disparado com as informações da instância recém-criada:
+
+    ```delphi
+    procedure TForm9.ApiEuAtendo1CriarInstancia(Sender: TObject;
+      const InstanceResponse: TInstanceResponse);
+    begin
+      edtNome.Text   := InstanceResponse.InstanceName; // Nome da instância
+      edtStatus.Text := InstanceResponse.Status;       // Status da instância
+      edtSenha.Text  := InstanceResponse.ApiKey;       // Chave API da instância
+
+      // Configurar o componente com os dados da nova instância
+      ApiEuAtendo1.ChaveApi      := InstanceResponse.ApiKey;
+      ApiEuAtendo1.NomeInstancia := InstanceResponse.InstanceName;
+    end;
+    ```
+
+    Assim, após a criação da instância, os dados retornados (nome, status, chave API) são armazenados e usados para futuras conexões.
   </Accordion>
 </AccordionGroup>
+
 
 ### Metodos e funções
 
