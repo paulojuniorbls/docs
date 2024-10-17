@@ -74,14 +74,37 @@ description: 'Vamos configurar o servidor e as instancias'
 </AccordionGroup>
 
 
-### Metodos e funções
+### Lendo o QRCode e Conectando à Instância
 
 <AccordionGroup>
 
-  <Accordion icon="signal" title="Verificando o status da instância">
-    Para verificar o status atual de uma instância (aberta, fechada, conectando), utilize a função `StatusInstancia`. O evento de retorno fornecerá as informações sobre o nome da instância e o estado dela.
+  <Accordion icon="qrcode" title="Gerar QRCode para Conectar">
+    Antes de conectar a instância ao WhatsApp, você precisa gerar e escanear o QRCode. A função `ExibirQRCode` do componente **ApiEuAtendo** permite isso.
 
-    Exemplo de como verificar o status da instância:
+    Exemplo de como gerar o QRCode:
+
+    ```delphi
+    var
+      ErrorMsg: string;
+    begin
+      // Chamar a função para exibir o QRCode da instância
+      if not ApiEuAtendo1.ExibirQRCode(ErrorMsg) then
+      begin
+        ShowMessage('Erro ao gerar QRCode: ' + ErrorMsg);
+        Exit;
+      end;
+      
+      ShowMessage('QRCode gerado com sucesso. Escaneie com o WhatsApp para conectar.');
+    end;
+    ```
+
+    Após a leitura do QRCode, o dispositivo será vinculado à instância e ficará pronto para o envio e recebimento de mensagens.
+  </Accordion>
+
+  <Accordion icon="signal" title="Verificar Status da Instância">
+    Após a leitura do QRCode e conexão do dispositivo, você pode verificar o status da instância para garantir que está conectada e pronta para uso. Use a função `StatusInstancia` para isso.
+
+    Exemplo de como verificar o status da instância após a leitura do QRCode:
 
     ```delphi
     var
@@ -92,7 +115,7 @@ description: 'Vamos configurar o servidor e as instancias'
     end;
     ```
 
-    Em seguida, implemente o evento que será disparado após a chamada da função:
+    Agora implemente o evento que será disparado quando a função de status for chamada:
 
     ```delphi
     procedure TForm9.ApiEuAtendo1StatusInstancia(Sender: TObject;
@@ -102,24 +125,28 @@ description: 'Vamos configurar o servidor e as instancias'
       edtNome.Text   := InstanceStatus.InstanceName;
       edtStatus.Text := InstanceStatus.State; // Estados: open, closed, connecting
 
-      // Exibir uma mensagem ao usuário de acordo com o estado da instância
       if InstanceStatus.State = 'open' then
-        ShowMessage('A instância está conectada.')
+        ShowMessage('Instância conectada com sucesso.')
       else if InstanceStatus.State = 'closed' then
-        ShowMessage('A instância está fechada.')
+        ShowMessage('Instância desconectada. Escaneie o QRCode novamente.')
       else if InstanceStatus.State = 'connecting' then
-        ShowMessage('A instância está tentando conectar.');
+        ShowMessage('A instância está tentando conectar. Por favor, aguarde.');
     end;
     ```
 
-    Neste exemplo, o estado da instância pode ser um dos seguintes valores:
-    - **open**: Instância conectada.
-    - **closed**: Instância desconectada.
+    Com isso, você pode verificar em tempo real o status da instância e agir conforme necessário. O estado pode ser um dos seguintes:
+    - **open**: Instância conectada e pronta para uso.
+    - **closed**: Instância desconectada, necessitando de nova conexão via QRCode.
     - **connecting**: A instância está em processo de conexão.
 
-    O retorno deste evento permite que o usuário saiba o status atual de qualquer instância conectada ao **euAtendo**.
   </Accordion>
 
+</AccordionGroup>
+
+### Metodos e funções
+
+<AccordionGroup>
+  
   <Accordion icon="message-bot" title="Enviando uma mensagem de texto">
     Para enviar uma mensagem de texto simples utilizando o componente **euAtendo**, você deve usar a função `EnviarMensagemDeTexto`. Certifique-se de que a instância está criada e conectada antes de realizar o envio.
 
@@ -209,9 +236,6 @@ description: 'Vamos configurar o servidor e as instancias'
   </Accordion>
 
 </AccordionGroup>
-
-
-
 
 ## Update your docs
 
