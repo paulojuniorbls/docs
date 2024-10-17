@@ -80,6 +80,8 @@ description: 'Vamos configurar o servidor e as instancias'
 
 <AccordionGroup>
 
+  <AccordionGroup>
+
   <Accordion icon="message-bot" title="Enviando uma mensagem de texto">
     Para enviar uma mensagem de texto simples utilizando o componente **euAtendo**, você deve usar a função `EnviarTexto`. Certifique-se de que a instância está criada e conectada antes de realizar o envio.
 
@@ -130,33 +132,46 @@ description: 'Vamos configurar o servidor e as instancias'
   </Accordion>
 
   <Accordion icon="code" title="Enviando um texto com anexo em base64">
-    Se o anexo estiver em formato base64, você pode utilizar a função `EnviarAnexoBase64`. Este método é útil quando o arquivo já está codificado em base64, como em integrações mais avançadas.
+    Para enviar um arquivo codificado em base64, utilize a função `EnviarMensagemDeBase64`. O código abaixo mostra como abrir um arquivo com **FileOpenDialog**, converter para base64 e enviá-lo via componente **euAtendo**.
 
-    Exemplo de como enviar uma mensagem com um anexo codificado em base64:
+    Exemplo de como enviar uma mensagem com anexo em base64:
 
     ```delphi
     var
       ErrorMsg: string;
-      Base64Anexo: string;
     begin
-      // Exemplo de um anexo base64 (substitua pelo seu conteúdo)
-      Base64Anexo := 'JVBERi0xLjcKJcfsj6IK...'; // O conteúdo completo em base64 do arquivo.
-
-      // Enviar texto e anexo em base64
-      if not ApiEuAtendo1.EnviarAnexoBase64('+5511999999999', 'Aqui está o anexo em base64:', 'documento.pdf', Base64Anexo, ErrorMsg) then
+      // Abrir o diálogo para selecionar o arquivo
+      if FileOpenDialog1.Execute then
       begin
-        ShowMessage('Erro ao enviar anexo base64: ' + ErrorMsg);
-        Exit;
-      end
-      else
-      begin
-        ShowMessage('Anexo base64 enviado com sucesso!');
+        if FileOpenDialog1.FileName <> '' then
+        begin
+          // Limpar o Memo1 e adicionar o conteúdo do arquivo convertido para base64
+          memo1.Lines.Clear;
+          memo1.Lines.Add(FileToBase64(FileOpenDialog1.FileName));
+          
+          // Enviar o arquivo codificado em base64
+          if not ApiEuAtendo1.EnviarMensagemDeBase64('+559982385000', 'Segue seu boleto', Memo1.Lines.Text, 'document', 'orcamento.pdf', ErrorMsg) then
+          begin
+            ShowMessage('Erro ao enviar anexo base64: ' + ErrorMsg);
+          end
+          else
+          begin
+            ShowMessage('Anexo base64 enviado com sucesso!');
+          end;
+        end;
       end;
     end;
     ```
 
-    Neste exemplo, o anexo é enviado em base64, permitindo maior flexibilidade em integrações que exigem esse formato.
+    Neste exemplo:
+    - O arquivo é selecionado através de **FileOpenDialog**.
+    - O conteúdo do arquivo é convertido para base64 usando a função `FileToBase64`.
+    - O anexo em base64 é enviado utilizando a função `EnviarMensagemDeBase64`.
+    - O quarto parâmetro ('document') indica o tipo de anexo, e o quinto ('orcamento.pdf') é o nome que o destinatário verá.
   </Accordion>
+
+</AccordionGroup>
+
 
 </AccordionGroup>
 
