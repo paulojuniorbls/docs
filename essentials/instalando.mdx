@@ -3,38 +3,35 @@ title: Instalando o Componente euAtendo
 description: 'Aprenda como configurar o euAtendo e integrá-lo ao seu projeto Delphi.'
 ---
 
-## Pré-requisitos
+## Instalação do Componente euAtendo
 
-Antes de começar, certifique-se de que você atenda aos seguintes requisitos:
+Para instalar o componente *euAtendo*, siga os passos abaixo:
 
-- Delphi instalado (versão compatível)
-- Componente euAtendo baixado (disponível em nossa página oficial)
-- Acesso ao seu painel euAtendo para obter as credenciais de API
+### 1. Baixar e copiar os arquivos
 
-## Passo 1: Baixando o Componente
+1. Baixe os arquivos do repositório oficial.
+2. Copie os arquivos para um diretório de sua preferência no seu sistema.
 
-Faça o download da versão mais recente do componente *euAtendo* diretamente do nosso repositório ou site oficial. 
+### 2. Instalar o pacote no Delphi
 
-**Link para download**: [Baixar Componente](https://seusite.com/download-euatendo)
+1. Abra o **Delphi**.
+2. Navegue até a pasta onde os arquivos foram salvos:
+   - Acesse as pastas `build` e depois `install`.
+3. Prossiga para instalar o pacote clicando no arquivo correspondente.
 
-## Passo 2: Instalando no Delphi
+### 3. Adicionar o caminho das units ao Delphi
 
-1. Abra seu Delphi e acesse o menu **Component > Install Package**.
-2. Clique em **Add...** e navegue até o diretório onde você extraiu o componente.
-3. Selecione o arquivo `.dpk` do componente *euAtendo* e clique em **OK**.
-4. Confirme a instalação e verifique se o componente foi adicionado à paleta de componentes.
+1. No Delphi, vá em **Tools > Options...**.
+2. Em **Environment Options > Delphi Options > Library**, adicione o caminho onde os arquivos do *euAtendo* estão localizados.
 
-> **Dica:** Se ocorrer algum erro durante a instalação, verifique se todas as dependências estão corretamente configuradas no Delphi.
+   > **Dica:** Certifique-se de adicionar o caminho correto da pasta para garantir que todas as units sejam localizadas corretamente durante o desenvolvimento.
 
-## Passo 3: Configuração Inicial
+## Próximos Passos
 
-Após a instalação, você pode começar a configurar o *euAtendo* em seu projeto Delphi.
+Agora que você instalou o componente, pode continuar para a próxima etapa de configuração inicial e enviar suas primeiras mensagens. Confira nosso guia **[Primeiros Passos](../primeiros-passos)** para mais detalhes!
 
-1. Arraste o componente *euAtendo* para o seu formulário.
-2. Insira suas credenciais da API (chave de API e Token) que podem ser obtidas no painel do *euAtendo*.
-3. Configure os parâmetros desejados, como URL de integração, filas e usuários.
+---
 
-```delphi
-euAtendo1.APIKey := 'sua-chave-api';
-euAtendo1.Token := 'seu-token';
-euAtendo1.Fila := 'nome-da-fila';
+### Precisa de ajuda?
+
+Se você encontrar qualquer dificuldade, entre em contato com nosso suporte técnico ou consulte a [documentação completa](https://seusite.com/documentacao).
