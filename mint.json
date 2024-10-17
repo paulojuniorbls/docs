@@ -33,19 +33,19 @@
   ],
   "anchors": [
     {
-      "name": "Documentation",
+      "name": "GitHub",
       "icon": "book-open-cover",
       "url": "https://mintlify.com/docs"
     },
     {
-      "name": "Community",
+      "name": "Comunidade WhatsApp",
       "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "url": "https://chat.whatsapp.com/DxuXCabArWdLZZBhx5wb1r"
     },
     {
-      "name": "Blog",
+      "name": "Instagram",
       "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "url": "https://instagram.com/apidevsbr"
     }
   ],
   "navigation": [
