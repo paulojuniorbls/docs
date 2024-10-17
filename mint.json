@@ -34,17 +34,17 @@
   "anchors": [
     {
       "name": "GitHub",
-      "icon": "book-open-cover",
+      "icon": "code-branch",
       "url": "https://mintlify.com/docs"
     },
     {
       "name": "Comunidade WhatsApp",
-      "icon": "slack",
+      "icon": "comments",
       "url": "https://chat.whatsapp.com/DxuXCabArWdLZZBhx5wb1r"
     },
     {
       "name": "Instagram",
-      "icon": "newspaper",
+      "icon": "camera-retro",
       "url": "https://instagram.com/apidevsbr"
     }
   ],
