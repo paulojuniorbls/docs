@@ -60,12 +60,12 @@
     {
       "group": "Avançado",
       "pages": [
+        "essentials/instancias",
+        "essentials/status da mensagem",
         "essentials/grupos",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "essentials/Obter contatos",
+        "essentials/webhook",
+        "essentials/Casos de uso"
       ]
     },
     {
