@@ -12,7 +12,7 @@ icon: 'person-walking'
     - **Obter Foto de Perfil do Contato**
     - **Verificar se o Número é WhatsApp Válido**
 
-    ## Obter Dados do Contato
+    ## Obter Dados do Contato, ele retorna o PushName do contato
 
     Para obter informações detalhadas de um contato, como nome e status, utilize a função **ApiEuAtendo1.ObterDadosDoContato**, passando o número do contato como parâmetro.
 
@@ -20,17 +20,8 @@ icon: 'person-walking'
 
     ```delphi
     // Chamar a função para obter dados de um contato
-    ApiEuAtendo1.ObterDadosDoContato(edtNumeroContato.Text);
+    contato := ApiEuAtendo1.ObterDadosContato(edtNumeroContato.Text,erro);
 
-    // Evento disparado ao obter os dados do contato
-    procedure TForm9.ApiEuAtendo1ObterDadosDoContato(Sender: TObject;
-      const DadosContato: TContactInfo);
-    begin
-      memo1.Lines.Add('Nome: ' + DadosContato.ContactName);
-      memo1.Lines.Add('Status: ' + DadosContato.Status);
-      memo1.Lines.Add('Número: ' + DadosContato.PhoneNumber);
-      memo1.Lines.Add('--------------------------------------');
-    end;
     ```
 
     ## Obter Foto de Perfil do Contato
@@ -41,16 +32,16 @@ icon: 'person-walking'
 
     ```delphi
     // Chamar a função para obter a foto de perfil de um contato
-    ApiEuAtendo1.ObterFotoDePerfil(edtNumeroContato.Text);
+    ApiEuAtendo1.ObterFotoPerfil(edtNumeroContato.Text);
 
     // Evento disparado ao obter a foto de perfil do contato
-    procedure TForm9.ApiEuAtendo1ObterFotoDePerfil(Sender: TObject;
-      const FotoPerfilURL: string);
-    begin
-      memo1.Lines.Add('URL da Foto de Perfil: ' + FotoPerfilURL);
-      // Exemplo: exibir a foto de perfil em um componente de imagem
-      Image1.Picture.LoadFromFile(FotoPerfilURL);
-    end;
+    procedure TForm9.ApiEuAtendo1ObterFotoPerfil(Sender: TObject;
+	  const FotoPerfilResponse: TFotoPerfilResponse);
+	begin
+
+	  if FotoPerfilResponse.Filepath <> '' then
+		image1.Picture.LoadFromFile(FotoPerfilResponse.Filepath);
+	end;
     ```
 
     ## Verificar se o Número é WhatsApp Válido
