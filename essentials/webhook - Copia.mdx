@@ -1,0 +1,164 @@
+---
+title: 'Webhooks'
+description: 'Display inline code and code blocks'
+icon: 'code'
+---
+
+    Webhooks são um poderoso mecanismo para receber notificações em tempo real sobre eventos importantes. No contexto do **ApiEuAtendo**, o webhook permite que você receba atualizações automáticas diretamente no seu servidor, como o status de mensagens enviadas, recebimento de novas mensagens, entre outros eventos.
+
+    Nesta seção, vamos explicar como os webhooks funcionam e como você pode implementar um servidor usando o framework **Horse** para ouvir os eventos do webhook.
+
+    ## Como Funciona um Webhook?
+
+    Um **webhook** é um "callback" que envia uma solicitação HTTP (geralmente `POST`) a uma URL especificada sempre que ocorre um evento específico. Em vez de você precisar consultar constantemente o sistema para verificar atualizações, o sistema automaticamente envia essas notificações para seu servidor quando certos eventos acontecem.
+
+    ### Exemplo de Eventos Disparados
+    - **Recebimento de novas mensagens**: Quando uma nova mensagem é recebida por um cliente.
+    - **Status de mensagem**: Quando o status de uma mensagem enviada (como entregue, lido, etc.) é atualizado.
+    - **Eventos de conexão e desconexão de instâncias**.
+
+    ## Implementando um Servidor Webhook com Horse
+
+    Vamos implementar um servidor simples usando o framework **Horse** para ouvir as requisições do webhook e processar as notificações recebidas.
+
+    ### Instalação do Horse
+
+    Caso ainda não tenha o Horse instalado no seu projeto, você pode instalá-lo usando o repositório Horse no GitHub:
+
+    <Link url="https://github.com/HashLoad/horse" text="Visite o repositório Horse no GitHub" />
+
+	```bash
+    https://github.com/HashLoad/horse
+    ```
+
+    ### Configurando o Servidor Horse
+
+    Aqui está um exemplo de como você pode configurar um servidor simples para escutar as requisições do webhook:
+
+    ```delphi
+		unit Main.Form;
+		interface
+		uses Winapi.Windows, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
+		  Vcl.Buttons, System.SysUtils,DataSet.Serialize, FireDAC.Stan.Intf,
+		  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+		  FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet,
+		  FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids,System.JSON, ApiEuAtendo
+		  ;
+		type
+		  TFrmVCL = class(TForm)
+			btnStop: TBitBtn;
+			btnStart: TBitBtn;
+			Label1: TLabel;
+			edtPort: TEdit;
+			Memo1: TMemo;
+			DBGrid2: TDBGrid; 
+			DataSource2: TDataSource;
+			qryDetalhe: TFDMemTable;
+			memBase64: TMemo;
+			qryDetalheREMOTE_JID: TStringField;
+			qryDetalheFROM_ME: TBooleanField;
+			qryDetalheID: TStringField;
+			qryDetalhePUSH_NAME: TStringField;
+			qryDetalheTEXT: TStringField;
+			ApiEuAtendo1: TApiEuAtendo;
+			Button1: TButton;
+			procedure btnStopClick(Sender: TObject);
+			procedure FormClose(Sender: TObject; var Action: TCloseAction);
+			procedure btnStartClick(Sender: TObject);
+			procedure FormCreate(Sender: TObject);
+		  private
+			procedure Status;
+			procedure Start;
+			procedure Stop;
+		  end;
+
+		var
+		  FrmVCL: TFrmVCL;
+		implementation
+		uses Horse;
+		{$R *.dfm}
+
+		procedure TFrmVCL.FormClose(Sender: TObject; var Action: TCloseAction);
+		begin
+		  if THorse.IsRunning then
+			Stop;
+		end;
+		procedure TFrmVCL.FormCreate(Sender: TObject);
+		var
+		base64:String;
+		begin
+
+		  THorse.get('',
+			procedure(Req: THorseRequest; Res: THorseResponse)
+			begin
+			   Res.Send('Servidor ativo');
+			end);
+
+		   THorse.post('/resposta',
+			procedure(Req: THorseRequest; Res: THorseResponse)
+			begin
+			   memo1.Lines.Add(req.Body);
+			end);
+
+		end;
+
+		procedure TFrmVCL.Start;
+		begin
+		  THorse.Listen(StrToInt(edtPort.Text));
+		end;
+
+		procedure TFrmVCL.Status;
+		begin
+		  btnStop.Enabled := THorse.IsRunning;
+		  btnStart.Enabled := not THorse.IsRunning;
+		  edtPort.Enabled := not THorse.IsRunning;
+		end;
+
+		procedure TFrmVCL.Stop;
+		begin
+		  THorse.StopListen;
+		end;
+
+		procedure TFrmVCL.btnStartClick(Sender: TObject);
+		begin
+		  Start;
+		  Status;
+		end;
+
+		procedure TFrmVCL.btnStopClick(Sender: TObject);
+		begin
+		  Stop;
+		  Status;
+		end;
+
+		end.
+    ```
+
+    ### Explicação do Código
+
+    - **THorse.Post('/resposta')**: Cria uma rota para escutar eventos na URL `/resposta`.
+    - **Req.Body**: Obtém o corpo da requisição HTTP, que normalmente contém o JSON com os dados do evento disparado.
+    
+    ### Tratamento dos Dados Recebidos
+
+    O JSON enviado pelo webhook pode conter diversas informações, como o status de uma mensagem ou o conteúdo de uma nova mensagem recebida. Você pode usar bibliotecas como **SuperObject** ou **XSuperObject** para processar o JSON e extrair os dados que deseja.
+
+    Exemplo de onde jogar o JSON para ler e observar seu conteudo para tratar em seguida:
+
+    ```delphi
+     memo1.Lines.Add(req.Body);
+    ```
+
+    ## Testando o Webhook
+
+	Para testar o seu webhook, você pode usar ferramentas como **ngrok**, **tunnel CloudFlare**, **Radmin VPN**, ou **Hamachi** para expor o servidor local na internet e verificar se ele está recebendo os eventos corretamente. Crie um túnel seguro para seu servidor local, tornando-o acessível publicamente e pronto para receber notificações de eventos.
+
+	### Exemplos de Ferramentas para Teste:
+	- **ngrok**: Cria um túnel seguro que expõe seu servidor local para a internet.
+	- **tunnel CloudFlare**: Uma alternativa para exposição segura via CloudFlare.
+	- **Radmin VPN** e **Hamachi**: Ferramentas para configurar uma rede privada virtual (VPN), possibilitando o acesso remoto ao servidor.
+
+
+    ## Conclusão
+
+    Com o webhook configurado, seu sistema será capaz de receber notificações em tempo real sobre eventos importantes. Usando o framework **Horse**, a implementação de um servidor para escutar esses eventos é simples e eficiente, permitindo que você processe as informações de forma ágil e automatizada.
