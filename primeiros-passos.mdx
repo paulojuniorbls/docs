@@ -97,6 +97,20 @@ description: 'Vamos configurar o servidor e as instancias'
       ShowMessage('QRCode gerado com sucesso. Escaneie com o WhatsApp para conectar.');
     end;
     ```
+	
+	 Agora, precisamos implementar o evento `OnObterQrCode` para capturar o QRCode gerado em formato Base64 e exibi-lo:
+
+    ```delphi
+    procedure TForm9.ApiEuAtendo1ObterQrCode(Sender: TObject;
+      const Base64QRCode: string);
+    begin
+      // Carregar a imagem do QRCode gerado a partir do Base64
+      LoadBase64ToImage(Base64QRCode, Image1); // Exibe o QRCode no componente Image1
+    end;
+    ```
+
+    A função `LoadBase64ToImage` converte a string Base64 do QRCode em uma imagem visual para que o usuário possa escanear o QRCode diretamente da interface do sistema.
+
 
     Após a leitura do QRCode, o dispositivo será vinculado à instância e ficará pronto para o envio e recebimento de mensagens.
   </Accordion>
@@ -115,7 +129,7 @@ description: 'Vamos configurar o servidor e as instancias'
     end;
     ```
 
-    Agora implemente o evento que será disparado quando a função de status for chamada:
+    Agora implemente o evento que será disparado quando a função de status for chamada no componente o Events OnStatusInstancia:
 
     ```delphi
     procedure TForm9.ApiEuAtendo1StatusInstancia(Sender: TObject;
