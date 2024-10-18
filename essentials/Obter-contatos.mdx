@@ -1,66 +1,81 @@
 ---
 title: 'Trabalhando com contatos'
-description: 'The navigation field in mint.json defines the pages that go in the navigation menu'
-icon: 'map'
+description: 'Nesta seção, você aprenderá a realizar diversas operações relacionadas aos contatos, como obter dados detalhados de um contato, verificar a foto de perfil e validar se um número é do WhatsApp.'
+icon: 'person-walking'
 ---
 
-The navigation menu is the list of links on every website.
+   
 
-You will likely update `mint.json` every time you add a new page. Pages do not show up automatically.
+    ### Funcionalidades Disponíveis
 
-## Navigation syntax
+    - **Obter Dados do Contato**
+    - **Obter Foto de Perfil do Contato**
+    - **Verificar se o Número é WhatsApp Válido**
 
-Our navigation syntax is recursive which means you can make nested navigation groups. You don't need to include `.mdx` in page names.
+    ## Obter Dados do Contato
 
-<CodeGroup>
+    Para obter informações detalhadas de um contato, como nome e status, utilize a função **ApiEuAtendo1.ObterDadosDoContato**, passando o número do contato como parâmetro.
 
-```json Regular Navigation
-"navigation": [
-    {
-        "group": "Getting Started",
-        "pages": ["quickstart"]
-    }
-]
-```
+    ### Exemplo de Código
 
-```json Nested Navigation
-"navigation": [
-    {
-        "group": "Getting Started",
-        "pages": [
-            "quickstart",
-            {
-                "group": "Nested Reference Pages",
-                "pages": ["nested-reference-page"]
-            }
-        ]
-    }
-]
-```
+    ```delphi
+    // Chamar a função para obter dados de um contato
+    ApiEuAtendo1.ObterDadosDoContato(edtNumeroContato.Text);
 
-</CodeGroup>
+    // Evento disparado ao obter os dados do contato
+    procedure TForm9.ApiEuAtendo1ObterDadosDoContato(Sender: TObject;
+      const DadosContato: TContactInfo);
+    begin
+      memo1.Lines.Add('Nome: ' + DadosContato.ContactName);
+      memo1.Lines.Add('Status: ' + DadosContato.Status);
+      memo1.Lines.Add('Número: ' + DadosContato.PhoneNumber);
+      memo1.Lines.Add('--------------------------------------');
+    end;
+    ```
 
-## Folders
+    ## Obter Foto de Perfil do Contato
 
-Simply put your MDX files in folders and update the paths in `mint.json`.
+    Para obter a foto de perfil de um contato, utilize a função **ApiEuAtendo1.ObterFotoDePerfil** passando o número do contato. Isso retornará a URL da foto de perfil do contato no WhatsApp.
 
-For example, to have a page at `https://yoursite.com/your-folder/your-page` you would make a folder called `your-folder` containing an MDX file called `your-page.mdx`.
+    ### Exemplo de Código
 
-<Warning>
+    ```delphi
+    // Chamar a função para obter a foto de perfil de um contato
+    ApiEuAtendo1.ObterFotoDePerfil(edtNumeroContato.Text);
 
-You cannot use `api` for the name of a folder unless you nest it inside another folder. Mintlify uses Next.js which reserves the top-level `api` folder for internal server calls. A folder name such as `api-reference` would be accepted.
+    // Evento disparado ao obter a foto de perfil do contato
+    procedure TForm9.ApiEuAtendo1ObterFotoDePerfil(Sender: TObject;
+      const FotoPerfilURL: string);
+    begin
+      memo1.Lines.Add('URL da Foto de Perfil: ' + FotoPerfilURL);
+      // Exemplo: exibir a foto de perfil em um componente de imagem
+      Image1.Picture.LoadFromFile(FotoPerfilURL);
+    end;
+    ```
 
-</Warning>
+    ## Verificar se o Número é WhatsApp Válido
 
-```json Navigation With Folder
-"navigation": [
-    {
-        "group": "Group Name",
-        "pages": ["your-folder/your-page"]
-    }
-]
-```
+    Para verificar se um número é válido no WhatsApp, utilize a função **ApiEuAtendo1.VerificarNumeroWhatsApp** passando o número do contato como parâmetro. A função retorna uma resposta indicando se o número é válido ou não.
 
-## Hidden Pages
+    ### Exemplo de Código
 
-MDX files not included in `mint.json` will not show up in the sidebar but are accessible through the search bar and by linking directly to them.
+    ```delphi
+    // Chamar a função para verificar se o número é um WhatsApp válido
+    procedure TForm9.VerificarNumeroWhatsApp;
+    var
+      IsWhatsAppValido: Boolean;
+      ErrorMsg: string;
+    begin
+      IsWhatsAppValido := ApiEuAtendo1.VerificarNumeroWhatsApp(edtNumeroContato.Text, ErrorMsg);
+      
+      if IsWhatsAppValido then
+        ShowMessage('O número é válido no WhatsApp.')
+      else
+        ShowMessage('Número inválido: ' + ErrorMsg);
+    end;
+    ```
+
+    ## Tratamento de Erros
+    - Verifique se o número de telefone foi inserido corretamente antes de chamar qualquer uma das funções.
+    - Em caso de erro, as funções retornarão uma mensagem de erro específica através da variável `ErrorMsg`, para facilitar o diagnóstico do problema.
+
