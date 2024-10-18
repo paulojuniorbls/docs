@@ -1,51 +1,253 @@
 ---
 title: 'Primeiros passos'
-description: 'Vamos entender como tirar o melhor do euAtendo API'
+description: 'Vamos configurar o servidor e as instancias'
 ---
 
-## Setup your development
-
-Compativel com versões apartir das 10.3.
-
-### Edit and preview
+### Acesso ao servidor e instancias
 
 <AccordionGroup>
-  <Accordion icon="github" title="Clone your docs locally">
-    During the onboarding process, we created a repository on your Github with
-    your docs content. You can find this repository on our
-    [dashboard](https://dashboard.mintlify.com). To clone the repository
-    locally, follow these
-    [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-    in your terminal.
+  <Accordion icon="server" title="Autenticando o servidor da API">
+    Para usar o componente euAtendo, é necessário definir o servidor URL e a GlobalAPI antes de utilizar as funções. Esses valores podem ser fixados no seu código, pois geralmente não mudam.
+
+    Caso ainda não possua um servidor privado, você pode testar utilizando o servidor **COMUNITÁRIO DISPONÍVEL**:
+
+    - **ApiGlobal:** ASD3F21APIDEVS6A5SPAULOJRDEVFA1
+    - **endPoint:** https://apiv1demo.apidevs.app
+    - **Manager:** https://apiv1demo.apidevs.app/manager
+
+    Abaixo segue um exemplo de como configurar esses valores no evento **onShow** do formulário em Delphi:
+
+    ```delphi
+    procedure TForm1.FormShow(Sender: TObject);
+    begin
+      ApiEuAtendo1.VersionAPI := TVersionOption.V1; // Definir a versão da API
+      ApiEuAtendo1.GlobalAPI := 'ASD3F21APIDEVS6A5SPAULOJRDEVFA1'; // Chave Global API
+      ApiEuAtendo1.EvolutionApiURL := 'https://apiv1demo.apidevs.app'; // URL do servidor
+    end;
+    ```
   </Accordion>
-  <Accordion icon="rectangle-terminal" title="Preview changes">
-    Previewing helps you make sure your changes look as intended. We built a
-    command line interface to render these changes locally. 1. Install the
-    [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
-    documentation changes locally with this command: ``` npm i -g mintlify ```
-    2. Run the following command at the root of your documentation (where
-    `mint.json` is): ``` mintlify dev ```
+
+  <Accordion icon="mobile" title="Instâncias 'Celulares de Clientes'">
+    Cada instância representa um dispositivo conectado (por exemplo, o celular de um cliente). Pode ser utilizado para uma única empresa ou para diferentes empresas. 
+
+    Sempre que uma instância é criada, é obrigatório salvar o nome e a senha da instância para uso futuro. Dessa forma, sempre que o ERP for inicializado, os valores serão passados ao componente durante a sua inicialização.
+
+    Antes de chamar a função **CriarInstancia**, é necessário passar dois parâmetros ao componente:
+
+    ```delphi
+    ApiEuAtendo1.NomeInstancia := edtNome.Text; // Nome da instância
+    ApiEuAtendo1.ChaveApi      := edtSenha.Text; // Chave API da instância (Opcional)
+    ```
+
+    A criação de uma instância pode ser feita da seguinte forma:
+
+    ```delphi
+    var
+      ErrorMsg: string;
+    begin
+      if not ApiEuAtendo1.CriarInstancia(ErrorMsg) then
+      begin
+        ShowMessage('Erro ao criar instância: ' + ErrorMsg);
+        Exit;
+      end;
+    end;
+    ```
+
+    Após chamar a função para criar a instância, é necessário implementar o evento que será disparado com as informações da instância recém-criada:
+
+    ```delphi
+    procedure TForm9.ApiEuAtendo1CriarInstancia(Sender: TObject;
+      const InstanceResponse: TInstanceResponse);
+    begin
+      edtNome.Text   := InstanceResponse.InstanceName; // Nome da instância
+      edtStatus.Text := InstanceResponse.Status;       // Status da instância
+      edtSenha.Text  := InstanceResponse.ApiKey;       // Chave API da instância
+
+      // Configurar o componente com os dados da nova instância
+      ApiEuAtendo1.ChaveApi      := InstanceResponse.ApiKey;
+      ApiEuAtendo1.NomeInstancia := InstanceResponse.InstanceName;
+    end;
+    ```
+
+    Assim, após a criação da instância, os dados retornados (nome, status, chave API) são armazenados e usados para futuras conexões.
   </Accordion>
 </AccordionGroup>
 
-### Deploy your changes
+
+### Lendo o QRCode e Conectando à Instância
 
 <AccordionGroup>
 
-<Accordion icon="message-bot" title="Install our Github app">
-  Our Github app automatically deploys your changes to your docs site, so you
-  don't need to manage deployments yourself. You can find the link to install on
-  your [dashboard](https://dashboard.mintlify.com). Once the bot has been
-  successfully installed, there should be a check mark next to the commit hash
-  of the repo.
-</Accordion>
-<Accordion icon="rocket" title="Push your changes">
-  [Commit and push your changes to
-  Git](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push)
-  for your changes to update in your docs site. If you push and don't see that
-  the Github app successfully deployed your changes, you can also manually
-  update your docs through our [dashboard](https://dashboard.mintlify.com).
-</Accordion>
+  <Accordion icon="qrcode" title="Gerar QRCode para Conectar">
+    Antes de conectar a instância ao WhatsApp, você precisa gerar e escanear o QRCode. A função `ExibirQRCode` do componente **ApiEuAtendo** permite isso.
+
+    Exemplo de como gerar o QRCode:
+
+    ```delphi
+    var
+      ErrorMsg: string;
+    begin
+      // Chamar a função para exibir o QRCode da instância
+      if not ApiEuAtendo1.ExibirQRCode(ErrorMsg) then
+      begin
+        ShowMessage('Erro ao gerar QRCode: ' + ErrorMsg);
+        Exit;
+      end;
+      
+      ShowMessage('QRCode gerado com sucesso. Escaneie com o WhatsApp para conectar.');
+    end;
+    ```
+	
+	 Agora, precisamos implementar o evento `OnObterQrCode` para capturar o QRCode gerado em formato Base64 e exibi-lo:
+
+    ```delphi
+    procedure TForm9.ApiEuAtendo1ObterQrCode(Sender: TObject;
+      const Base64QRCode: string);
+    begin
+      // Carregar a imagem do QRCode gerado a partir do Base64
+      LoadBase64ToImage(Base64QRCode, Image1); // Exibe o QRCode no componente Image1
+    end;
+    ```
+
+    A função `LoadBase64ToImage` converte a string Base64 do QRCode em uma imagem visual para que o usuário possa escanear o QRCode diretamente da interface do sistema.
+
+
+    Após a leitura do QRCode, o dispositivo será vinculado à instância e ficará pronto para o envio e recebimento de mensagens.
+  </Accordion>
+
+  <Accordion icon="signal" title="Verificar Status da Instância">
+    Após a leitura do QRCode e conexão do dispositivo, você pode verificar o status da instância para garantir que está conectada e pronta para uso. Use a função `StatusInstancia` para isso.
+
+    Exemplo de como verificar o status da instância após a leitura do QRCode:
+
+    ```delphi
+    var
+      ErrorMsg: string;
+    begin
+      // Chamar a função para obter o status da instância
+      ApiEuAtendo1.StatusInstancia;
+    end;
+    ```
+
+    Agora implemente o evento que será disparado quando a função de status for chamada no componente o Events OnStatusInstancia:
+
+    ```delphi
+    procedure TForm9.ApiEuAtendo1StatusInstancia(Sender: TObject;
+      const InstanceStatus: TInstanceStatus);
+    begin
+      // Exibir o nome da instância e o estado atual
+      edtNome.Text   := InstanceStatus.InstanceName;
+      edtStatus.Text := InstanceStatus.State; // Estados: open, closed, connecting
+
+      if InstanceStatus.State = 'open' then
+        ShowMessage('Instância conectada com sucesso.')
+      else if InstanceStatus.State = 'closed' then
+        ShowMessage('Instância desconectada. Escaneie o QRCode novamente.')
+      else if InstanceStatus.State = 'connecting' then
+        ShowMessage('A instância está tentando conectar. Por favor, aguarde.');
+    end;
+    ```
+
+    Com isso, você pode verificar em tempo real o status da instância e agir conforme necessário. O estado pode ser um dos seguintes:
+    - **open**: Instância conectada e pronta para uso.
+    - **closed**: Instância desconectada, necessitando de nova conexão via QRCode.
+    - **connecting**: A instância está em processo de conexão.
+
+  </Accordion>
+
+</AccordionGroup>
+
+### Metodos e funções
+
+<AccordionGroup>
+  
+  <Accordion icon="message-bot" title="Enviando uma mensagem de texto">
+    Para enviar uma mensagem de texto simples utilizando o componente **euAtendo**, você deve usar a função `EnviarMensagemDeTexto`. Certifique-se de que a instância está criada e conectada antes de realizar o envio.
+
+    Exemplo de como enviar uma mensagem de texto:
+
+    ```delphi
+    var
+      ErrorMsg: string;
+    begin
+      // Enviar mensagem de texto para um número específico
+      if not ApiEuAtendo1.EnviarMensagemDeTexto('+5511999999999', 'Olá! Como posso ajudar?', ErrorMsg) then
+      begin
+        ShowMessage('Erro ao enviar mensagem: ' + ErrorMsg);
+        Exit;
+      end
+      else
+      begin
+        ShowMessage('Mensagem enviada com sucesso!');
+      end;
+    end;
+    ```
+    Neste exemplo, substitua `+5511999999999` pelo número do destinatário. Caso ocorra algum erro durante o envio, a variável `ErrorMsg` retornará a descrição do erro.
+  </Accordion>
+
+  <Accordion icon="file-arrow-up" title="Enviando um texto com anexo (arquivo)">
+    Para enviar uma mensagem com um arquivo anexo (por exemplo, uma imagem ou documento), utilize a função `EnviarArquivo`. O caminho do arquivo no sistema local deve ser fornecido.
+
+    Exemplo de como enviar uma mensagem com um anexo:
+
+    ```delphi
+    var
+      ErrorMsg: string;
+    begin
+      // Enviar texto e arquivo para um número específico
+      if not ApiEuAtendo1.EnviarArquivo('+5511999999999', 'Segue o documento solicitado:', 'C:\Documentos\arquivo.pdf', ErrorMsg) then
+      begin
+        ShowMessage('Erro ao enviar arquivo: ' + ErrorMsg);
+        Exit;
+      end
+      else
+      begin
+        ShowMessage('Arquivo enviado com sucesso!');
+      end;
+    end;
+    ```
+
+    Neste exemplo, o arquivo `arquivo.pdf` será enviado junto com o texto. O caminho do arquivo deve ser completo e apontar para o local correto no sistema.
+  </Accordion>
+
+  <Accordion icon="code" title="Enviando um texto com anexo em base64">
+    Para enviar um arquivo codificado em base64, utilize a função `EnviarMensagemDeBase64`. O código abaixo mostra como abrir um arquivo com **FileOpenDialog**, converter para base64 e enviá-lo via componente **euAtendo**.
+
+    Exemplo de como enviar uma mensagem com anexo em base64:
+
+    ```delphi
+    var
+      ErrorMsg: string;
+    begin
+      // Abrir o diálogo para selecionar o arquivo
+      if FileOpenDialog1.Execute then
+      begin
+        if FileOpenDialog1.FileName <> '' then
+        begin
+          // Limpar o Memo1 e adicionar o conteúdo do arquivo convertido para base64
+          memo1.Lines.Clear;
+          memo1.Lines.Add(FileToBase64(FileOpenDialog1.FileName));
+          
+          // Enviar o arquivo codificado em base64
+          if not ApiEuAtendo1.EnviarMensagemDeBase64('+559982385000', 'Segue seu boleto', Memo1.Lines.Text, 'document', 'orcamento.pdf', ErrorMsg) then
+          begin
+            ShowMessage('Erro ao enviar anexo base64: ' + ErrorMsg);
+          end
+          else
+          begin
+            ShowMessage('Anexo base64 enviado com sucesso!');
+          end;
+        end;
+      end;
+    end;
+    ```
+
+    Neste exemplo:
+    - O arquivo é selecionado através de **FileOpenDialog**.
+    - O conteúdo do arquivo é convertido para base64 usando a função `FileToBase64`.
+    - O anexo em base64 é enviado utilizando a função `EnviarMensagemDeBase64`.
+    - O quarto parâmetro ('document') indica o tipo de anexo, e o quinto ('orcamento.pdf') é o nome que o destinatário verá.
+  </Accordion>
 
 </AccordionGroup>
 
