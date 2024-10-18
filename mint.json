@@ -62,13 +62,6 @@
         "essentials/Casos-de-uso"
       ]
     },
-    {
-      "group": "API Documentation",
-      "pages": [
-        "api-reference/introduction"
-      ]
-    }
-  ],
   "footerSocials": {
     "x": "https://x.com/mintlify",
     "github": "https://github.com/mintlify",
