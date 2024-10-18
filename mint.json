@@ -1,6 +1,5 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  feedback.thumbsRating": true,
   "name": "EuAtendo API Whats Delphi",
   "logo": {
     "dark": "/logo/logo_cor.svg",
@@ -68,4 +67,5 @@
     "instagram": "https://instagram.com/apidevsbr",
     "github": "https://github.com/paulojuniorbls/euAtendoWhatsDelphi"
   }
+"feedback.thumbsRating": true,
 }
