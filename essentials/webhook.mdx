@@ -34,42 +34,102 @@ icon: 'code'
     Aqui está um exemplo de como você pode configurar um servidor simples para escutar as requisições do webhook:
 
     ```delphi
-    program WebhookServer;
+			unit Main.Form;
+		interface
+		uses Winapi.Windows, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
+		  Vcl.Buttons, System.SysUtils,DataSet.Serialize, FireDAC.Stan.Intf,
+		  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+		  FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet,
+		  FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids,System.JSON, ApiEuAtendo
+		  ;
+		type
+		  TFrmVCL = class(TForm)
+			btnStop: TBitBtn;
+			btnStart: TBitBtn;
+			Label1: TLabel;
+			edtPort: TEdit;
+			Memo1: TMemo;
+			DBGrid2: TDBGrid;
+			DataSource2: TDataSource;
+			qryDetalhe: TFDMemTable;
+			memBase64: TMemo;
+			qryDetalheREMOTE_JID: TStringField;
+			qryDetalheFROM_ME: TBooleanField;
+			qryDetalheID: TStringField;
+			qryDetalhePUSH_NAME: TStringField;
+			qryDetalheTEXT: TStringField;
+			ApiEuAtendo1: TApiEuAtendo;
+			Button1: TButton;
+			procedure btnStopClick(Sender: TObject);
+			procedure FormClose(Sender: TObject; var Action: TCloseAction);
+			procedure btnStartClick(Sender: TObject);
+			procedure FormCreate(Sender: TObject);
+		  private
+			procedure Status;
+			procedure Start;
+			procedure Stop;
+		  end;
 
-    uses
-      Horse, // Framework Horse para servidor HTTP
-      System.SysUtils, 
-      Web.HTTPApp;
+		var
+		  FrmVCL: TFrmVCL;
+		implementation
+		uses Horse;
+		{$R *.dfm}
 
-    procedure ConfigurarWebhook;
-    begin
-      // Configurar o endpoint para receber requisições do webhook
-      THorse.Post('/webhook', 
-        procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
-        var
-          BodyData: string;
-        begin
-          // Captura o corpo da requisição (o JSON enviado pelo webhook)
-          BodyData := Req.Body;
+		procedure TFrmVCL.FormClose(Sender: TObject; var Action: TCloseAction);
+		begin
+		  if THorse.IsRunning then
+			Stop;
+		end;
+		procedure TFrmVCL.FormCreate(Sender: TObject);
+		var
+		base64:String;
+		begin
 
-          // Aqui você pode tratar o JSON e processar as informações
-          // Exemplo: tratar status de mensagem
-          if BodyData.Contains('message_status') then
-          begin
-            // Tratar o status da mensagem recebido
-            Writeln('Status de mensagem recebido: ', BodyData);
-          end;
+		  THorse.get('',
+			procedure(Req: THorseRequest; Res: THorseResponse)
+			begin
+			   Res.Send('Servidor ativo');
+			end);
 
-          // Enviar uma resposta para o serviço que enviou o webhook
-          Res.Send('Webhook recebido com sucesso!');
-        end);
-    end;
+		   THorse.post('/resposta',
+			procedure(Req: THorseRequest; Res: THorseResponse)
+			begin
+			   memo1.Lines.Add(req.Body);
+			end);
 
-    begin
-      // Inicia o servidor na porta 9000
-      ConfigurarWebhook;
-      THorse.Listen(9000);
-    end.
+		end;
+
+		procedure TFrmVCL.Start;
+		begin
+		  THorse.Listen(StrToInt(edtPort.Text));
+		end;
+
+		procedure TFrmVCL.Status;
+		begin
+		  btnStop.Enabled := THorse.IsRunning;
+		  btnStart.Enabled := not THorse.IsRunning;
+		  edtPort.Enabled := not THorse.IsRunning;
+		end;
+
+		procedure TFrmVCL.Stop;
+		begin
+		  THorse.StopListen;
+		end;
+
+		procedure TFrmVCL.btnStartClick(Sender: TObject);
+		begin
+		  Start;
+		  Status;
+		end;
+
+		procedure TFrmVCL.btnStopClick(Sender: TObject);
+		begin
+		  Stop;
+		  Status;
+		end;
+
+		end.
     ```
 
     ### Explicação do Código
