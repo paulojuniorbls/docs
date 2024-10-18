@@ -153,7 +153,21 @@ icon: 'code'
 	- **tunnel CloudFlare**: Uma alternativa para exposição segura via CloudFlare.
 	- **Radmin VPN** e **Hamachi**: Ferramentas para configurar uma rede privada virtual (VPN), possibilitando o acesso remoto ao servidor.
 
+	## Adicionando o Webhook na Instância do Cliente
+
+	Cada cliente pode ter um webhook próprio, o que permite maior flexibilidade e personalização das notificações recebidas. Alternativamente, você pode optar por configurar um **servidor único** para gerenciar os webhooks de todos os clientes, centralizando as operações.
+
+	O critério de escolha (individual ou centralizado) pode variar de acordo com a necessidade de cada cliente ou da sua operação.
+
+	### Exemplos de Configuração de Webhook:
+	- **Webhook Próprio por Cliente**: Cada instância de cliente tem um endereço de webhook exclusivo, recebendo notificações personalizadas diretamente no servidor configurado.
+	- **Servidor Único para Todos os Clientes**: Um servidor centralizado recebe todas as notificações, onde o gerenciamento e roteamento das informações podem ser feitos de forma mais concentrada.
+
+	### Exemplo de Estrutura de Webhook
+
    ![Adicione sua URL aqui](https://s33.apidevs.app/euatendo/webhook.png)
+   
+   O diagrama acima ilustra a estrutura típica de uma configuração de webhook, onde você pode escolher entre as abordagens de múltiplos webhooks ou de um único servidor para todos os clientes.
    
     ## Conclusão
 
