@@ -38,51 +38,114 @@ We support most markdown formatting. Simply add `**`, `_`, or `~` around text to
 
 You can combine these. For example, write `**_bold and italic_**` to get **_bold and italic_** text.
 
-You need to use HTML to write superscript and subscript text. That is, add `<sup>` or `<sub>` around your text.
+<Accordion icon="group" title="Trabalhando com Grupos">
+    Ao trabalhar com grupos, você pode realizar diversas operações, como obter a lista de grupos, listar os contatos de um grupo específico, enviar mensagens para o grupo e enviar uma marcação fantasma.
 
-| Text Size   | How to write it          | Result                 |
-| ----------- | ------------------------ | ---------------------- |
-| Superscript | `<sup>superscript</sup>` | <sup>superscript</sup> |
-| Subscript   | `<sub>subscript</sub>`   | <sub>subscript</sub>   |
+    ### Funcionalidades Disponíveis
 
-## Linking to Pages
+    - **Obter Todos os Grupos**
+    - **Listar Todos os Contatos do Grupo**
+    - **Enviar Mensagem para o Grupo**
+    - **Enviar uma Marcação Fantasma para o Grupo**
 
-You can add a link by wrapping text in `[]()`. You would write `[link to google](https://google.com)` to [link to google](https://google.com).
+    ## Obter Todos os Grupos
 
-Links to pages in your docs need to be root-relative. Basically, you should include the entire folder path. For example, `[link to text](/writing-content/text)` links to the page "Text" in our components section.
+    Para obter uma lista de todos os grupos disponíveis, utilize a função **ApiEuAtendo1.ObterGrupos**.
 
-Relative links like `[link to text](../text)` will open slower because we cannot optimize them as easily.
+    ### Exemplo de Código
 
-## Blockquotes
+    ```delphi
+    // Chamar a função para obter todos os grupos
+    ApiEuAtendo1.ObterGrupos;
 
-### Singleline
+    // Evento disparado ao obter todos os grupos
+    procedure TForm9.ApiEuAtendo1ObterGrupos(Sender: TObject;
+      const Grupos: TGroups);
+    var
+      i: Integer;
+    begin
+      memo1.Lines.Clear;
+      for i := 0 to Length(Grupos) - 1 do
+      begin
+        memo1.Lines.Add('Grupo: ' + Grupos[i].GroupName);
+        memo1.Lines.Add('ID: ' + Grupos[i].GroupID);
+        memo1.Lines.Add('--------------------------------------');
+      end;
+    end;
+    ```
 
-To create a blockquote, add a `>` in front of a paragraph.
+    ## Listar Todos os Contatos do Grupo
 
-> Dorothy followed her through many of the beautiful rooms in her castle.
+    Para listar todos os contatos de um grupo específico, utilize a função **ApiEuAtendo1.ListarContatosDoGrupo** passando o ID do grupo.
 
-```md
-> Dorothy followed her through many of the beautiful rooms in her castle.
-```
+    ### Exemplo de Código
 
-### Multiline
+    ```delphi
+    // Chamar a função para listar os contatos de um grupo
+    ApiEuAtendo1.ListarContatosDoGrupo(edtGroupID.Text);
 
-> Dorothy followed her through many of the beautiful rooms in her castle.
->
-> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.
+    // Evento disparado ao listar os contatos do grupo
+    procedure TForm9.ApiEuAtendo1ListarContatosDoGrupo(Sender: TObject;
+      const Contatos: TContacts);
+    var
+      i: Integer;
+    begin
+      memo1.Lines.Clear;
+      for i := 0 to Length(Contatos) - 1 do
+      begin
+        memo1.Lines.Add('Contato: ' + Contatos[i].ContactName);
+        memo1.Lines.Add('Número: ' + Contatos[i].PhoneNumber);
+        memo1.Lines.Add('--------------------------------------');
+      end;
+    end;
+    ```
 
-```md
-> Dorothy followed her through many of the beautiful rooms in her castle.
->
-> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.
-```
+    ## Enviar Mensagem para o Grupo
 
-### LaTeX
+    Para enviar uma mensagem para o grupo, utilize a função **ApiEuAtendo1.EnviarMensagemParaGrupo**, passando o ID do grupo e a mensagem.
 
-Mintlify supports [LaTeX](https://www.latex-project.org) through the Latex component.
+    ### Exemplo de Código
 
-<Latex>8 x (vk x H1 - H2) = (0,1)</Latex>
+    ```delphi
+    // Chamar a função para enviar uma mensagem para o grupo
+    procedure TForm9.EnviarMensagemParaGrupo;
+    var
+      ErrorMsg: string;
+    begin
+      if not ApiEuAtendo1.EnviarMensagemParaGrupo(edtGroupID.Text, edtMensagem.Text, ErrorMsg) then
+      begin
+        ShowMessage('Erro ao enviar mensagem: ' + ErrorMsg);
+      end
+      else
+      begin
+        ShowMessage('Mensagem enviada com sucesso!');
+      end;
+    end;
+    ```
 
-```md
-<Latex>8 x (vk x H1 - H2) = (0,1)</Latex>
-```
+    ## Enviar uma Marcação Fantasma para o Grupo
+
+    A marcação fantasma é uma mensagem que é enviada sem que o remetente seja visível. Para enviar uma marcação fantasma, utilize a função **ApiEuAtendo1.EnviarMarcacaoFantasma**.
+
+    ### Exemplo de Código
+
+    ```delphi
+    // Chamar a função para enviar uma marcação fantasma para o grupo
+    procedure TForm9.EnviarMarcacaoFantasma;
+    var
+      ErrorMsg: string;
+    begin
+      if not ApiEuAtendo1.EnviarMarcacaoFantasma(edtGroupID.Text, edtMensagem.Text, ErrorMsg) then
+      begin
+        ShowMessage('Erro ao enviar marcação fantasma: ' + ErrorMsg);
+      end
+      else
+      begin
+        ShowMessage('Marcação fantasma enviada com sucesso!');
+      end;
+    end;
+    ```
+
+    ## Tratamento de Erros
+    Certifique-se de que os IDs dos grupos e os contatos estejam corretos. Caso haja algum erro, a variável `ErrorMsg` retornará uma descrição detalhada do erro para que você possa corrigi-lo.
+</Accordion>
