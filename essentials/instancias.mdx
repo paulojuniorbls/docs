@@ -152,7 +152,63 @@ icon: 'image'
 </Accordion>
 
 
-  
+ <Accordion icon="mobile" title="Listar Todas as Instâncias">
+    Para listar todas as instâncias conectadas, utilize o método **ApiEuAtendo1.ObterInstancias**. Quando essa função é chamada, o evento **OnObterInstancias** será disparado, retornando uma lista de todas as instâncias disponíveis.
+
+    ## Passo a Passo para Listar as Instâncias
+
+    1. Chame o método **ObterInstancias** para recuperar a lista de instâncias.
+    2. O evento **OnObterInstancias** será disparado, retornando as informações de cada instância.
+    3. Utilize essas informações para exibir as instâncias, como nome, chave API e número de telefone, de acordo com a versão do componente.
+
+    ### Exemplo de Código
+
+    ```delphi
+    // Chamar a função para obter todas as instâncias
+    ApiEuAtendo1.ObterInstancias;
+
+    // Evento disparado ao listar as instâncias
+    procedure TForm9.ApiEuAtendo1ObterInstancias(Sender: TObject;
+      const Instancias: TInstances);
+    var
+      i: Integer;
+    begin
+      i := 0;
+
+      if ApiEuAtendo1.Version = TVersionOption.V1 then
+      begin
+        for i := 0 to Length(Instancias) - 1 do
+        begin
+          memo1.Lines.Add('Instância: ' + Instancias[i].InstanceName);
+          memo1.Lines.Add('Chave: ' + Instancias[i].ApiKey);
+          memo1.Lines.Add('Número: ' + Instancias[i].Owner);
+          memo1.Lines.Add('----------------------------------------');
+        end;
+      end;
+
+      if ApiEuAtendo1.Version = TVersionOption.V2 then
+      begin
+        for i := 0 to Length(Instancias) - 1 do
+        begin
+          memo1.Lines.Add('Instância: ' + Instancias[i].InstanceName);
+          memo1.Lines.Add('Chave: ' + Instancias[i].ApiKey);
+          memo1.Lines.Add('Número: ' + Instancias[i].PhoneNumber);
+          memo1.Lines.Add('----------------------------------------');
+        end;
+      end;
+    end;
+    ```
+
+    ## Resultado Esperado
+    Após chamar o método **ObterInstancias**, o evento **OnObterInstancias** será disparado, retornando uma lista de instâncias. As informações retornadas variam de acordo com a versão do componente (V1 ou V2), e incluem o nome da instância, a chave API, e o número de telefone associado à instância.
+
+    - Para a versão V1, a propriedade `Owner` contém o número de telefone.
+    - Para a versão V2, a propriedade `PhoneNumber` contém o número de telefone.
+
+    ## Tratamento de Versões
+    A função lida com diferentes versões do componente **euAtendo**, ajustando o retorno das informações conforme necessário para cada versão.
+</Accordion>
+
   
   
   
