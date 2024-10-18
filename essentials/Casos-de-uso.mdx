@@ -1,110 +1,40 @@
----
-title: Casos de uso
-description: Reusable, custom snippets to keep content in sync
-icon: 'recycle'
----
-
-import SnippetIntro from '/snippets/snippet-intro.mdx';
-
-<SnippetIntro />
-
-## Creating a custom snippet
-
-**Pre-condition**: You must create your snippet file in the `snippets` directory.
-
-<Note>
-  Any page in the `snippets` directory will be treated as a snippet and will not
-  be rendered into a standalone page. If you want to create a standalone page
-  from the snippet, import the snippet into another file and call it as a
-  component.
-</Note>
-
-### Default export
-
-1. Add content to your snippet file that you want to re-use across multiple
-   locations. Optionally, you can add variables that can be filled in via props
-   when you import the snippet.
-
-```mdx snippets/my-snippet.mdx
-Hello world! This is my content I want to reuse across pages. My keyword of the
-day is {word}.
-```
-
-<Warning>
-  The content that you want to reuse must be inside the `snippets` directory in
-  order for the import to work.
-</Warning>
-
-2. Import the snippet into your destination file.
-
-```mdx destination-file.mdx
----
-title: My title
-description: My Description
+title: 'Casos de Uso'
+description: 'Explorando os principais projetos usando o componente euAtendo'
+icon: 'use_case'
 ---
 
-import MySnippet from '/snippets/path/to/my-snippet.mdx';
+## Introdução
 
-## Header
+Nesta página, destacamos os principais **projetos que utilizam o componente euAtendo**, demonstrando como suas funcionalidades são aplicadas de forma prática e eficiente. Cada projeto exemplifica o uso real das ferramentas do euAtendo para automatizar processos, melhorar a comunicação e otimizar o gerenciamento de oportunidades de negócios.
 
-Lorem impsum dolor sit amet.
-
-<MySnippet word="bananas" />
-```
-
-### Reusable variables
-
-1. Export a variable from your snippet file:
-
-```mdx snippets/path/to/custom-variables.mdx
-export const myName = 'my name';
-
-export const myObject = { fruit: 'strawberries' };
-```
-
-2. Import the snippet from your destination file and use the variable:
-
-```mdx destination-file.mdx
----
-title: My title
-description: My Description
 ---
 
-import { myName, myObject } from '/snippets/path/to/custom-variables.mdx';
+## 1. Monitorador de Oportunidades
 
-Hello, my name is {myName} and I like {myObject.fruit}.
-```
+O **Monitorador de Oportunidades** é um dos nossos principais projetos utilizando o componente **euAtendo**. Ele foi desenvolvido para detectar oportunidades de negócio em grupos de mensagens, facilitando o acompanhamento e engajamento com possíveis clientes ou parceiros.
 
-### Reusable components
+### Funcionalidades Principais:
+- **Detecção de palavras-chave**: O monitorador identifica mensagens relevantes que contêm palavras-chave configuradas, sinalizando oportunidades de negócios.
+- **Envio automático de mensagens**: Com base nas oportunidades detectadas, o sistema pode enviar mensagens automáticas ou alertar o operador responsável.
+- **Monitoramento contínuo de grupos**: O sistema verifica os grupos de forma contínua, garantindo que nenhuma oportunidade seja perdida.
 
-1. Inside your snippet file, create a component that takes in props by exporting
-   your component in the form of an arrow function.
+### Casos de Uso do Monitorador de Oportunidades:
+1. **Monitorar Grupos de Mensagens**: O sistema se conecta a diversos grupos de mensagens e monitora continuamente as conversas, detectando palavras-chave específicas.
+2. **Enviar Mensagens para Oportunidades**: Ao detectar uma oportunidade, o sistema pode enviar mensagens personalizadas ou alertar o operador para uma interação manual.
+3. **Automatização de Processos**: O monitorador atua de forma automatizada, identificando e engajando potenciais clientes em tempo real.
 
-```mdx snippets/custom-component.mdx
-export const MyComponent = ({ title }) => (
-  <div>
-    <h1>{title}</h1>
-    <p>... snippet content ...</p>
-  </div>
-);
-```
+### Exemplo de Implementação: Monitorando Grupos de Mensagens
 
-<Warning>
-  MDX does not compile inside the body of an arrow function. Stick to HTML
-  syntax when you can or use a default export if you need to use MDX.
-</Warning>
+```delphi
+procedure MonitorarGrupo;
+begin
+  // Configura o monitoramento contínuo do grupo
+  ApiEuAtendo1.ObterGrupos;
 
-2. Import the snippet into your destination file and pass in the props
-
-```mdx destination-file.mdx
----
-title: My title
-description: My Description
----
-
-import { MyComponent } from '/snippets/custom-component.mdx';
-
-Lorem ipsum dolor sit amet.
-
-<MyComponent title={'Custom title'} />
-```
+  ApiEuAtendo1.OnObterInstancias := procedure(Sender: TObject; const Instancias: TInstances)
+  begin
+    for var i := 0 to Length(Instancias) - 1 do
+      if Instancias[i].InstanceName.Contains('Grupo') then
+        Memo1.Lines.Add('Monitorando grupo: ' + Instancias[i].InstanceName);
+  end;
+end;
