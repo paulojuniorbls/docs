@@ -26,7 +26,7 @@ icon: 'image'
     ```
   </Accordion>
 
-  <Accordion icon="mobile" title="Instâncias 'Celulares de Clientes'">
+  <Accordion icon="devices" title="Instâncias 'Celulares de Clientes'">
     Cada instância representa um dispositivo conectado (por exemplo, o celular de um cliente). Pode ser utilizado para uma única empresa ou para diferentes empresas. 
 
     Sempre que uma instância é criada, é obrigatório salvar o nome e a senha da instância para uso futuro. Dessa forma, sempre que o ERP for inicializado, os valores serão passados ao componente durante a sua inicialização.
@@ -71,7 +71,7 @@ icon: 'image'
     Assim, após a criação da instância, os dados retornados (nome, status, chave API) são armazenados e usados para futuras conexões.
   </Accordion>
   
-  <Accordion icon="mobile" title="Conectar em uma instancia existente">
+  <Accordion icon="link" title="Conectar em uma instancia existente">
     Uma vez que a instancia é criada, voce deve armazenar os dados dela, e usar esses dados sempre que for necessario.
 
     ## Passo a Passo para utilizar e alternar instancias
@@ -108,7 +108,7 @@ icon: 'image'
 
 </Accordion>
   
- <Accordion icon="mobile" title="Consultar Status da Instância">
+ <Accordion icon="check_circle" title="Consultar Status da Instância">
     Para consultar o status de uma instância já criada, você pode utilizar a função **ApiEuAtendo1.StatusInstancia()**. Após chamar essa função, o evento **OnStatusInstancia** será disparado, retornando as informações de status da instância.
 
     ## Passo a Passo para Consultar o Status
@@ -152,7 +152,7 @@ icon: 'image'
 </Accordion>
 
 
- <Accordion icon="mobile" title="Listar Todas as Instâncias">
+ <Accordion icon="list" title="Listar Todas as Instâncias">
     Para listar todas as instâncias conectadas, utilize o método **ApiEuAtendo1.ObterInstancias**. Quando essa função é chamada, o evento **OnObterInstancias** será disparado, retornando uma lista de todas as instâncias disponíveis.
 
     ## Passo a Passo para Listar as Instâncias
