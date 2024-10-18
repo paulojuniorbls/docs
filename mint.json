@@ -61,8 +61,8 @@
         "essentials/webhook",
         "essentials/Casos-de-uso"
       ]
-]
-    },
+    }
+  ],
   "footerSocials": {
     "x": "https://x.com/mintlify",
     "github": "https://github.com/mintlify",
