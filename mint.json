@@ -18,12 +18,12 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:paulojuniorbls@gmail.com"
+      "url": "https://wa.me/559982385000"
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://doc.apicomponente.com.br"
+    "name": "Servidor privado",
+    "url": "https://apidevs.basedeclientes.com.br/checkout/cb1383c7-e784-489a-9cd9-f42e27f01a79"
   },
   "anchors": [
     {
@@ -64,8 +64,7 @@
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://linkedin.com/company/mintlify"
+    "instagram": "https://instagram.com/apidevsbr",
+    "github": "https://github.com/paulojuniorbls/euAtendoWhatsDelphi"
   }
 }
