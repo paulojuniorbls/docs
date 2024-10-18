@@ -161,12 +161,15 @@ icon: 'image'
     2. O evento **OnObterInstancias** será disparado, retornando as informações de cada instância.
     3. Utilize essas informações para exibir as instâncias, como nome, chave API e número de telefone, de acordo com a versão do componente.
 
-    ### Exemplo de Código
+    ### Chame usando esse metodo
 
     ```delphi
     // Chamar a função para obter todas as instâncias
     ApiEuAtendo1.ObterInstancias;
-
+    ```
+    ### implemente o evento do componente OnObterInstancias
+	
+	```delphi
     // Evento disparado ao listar as instâncias
     procedure TForm9.ApiEuAtendo1ObterInstancias(Sender: TObject;
       const Instancias: TInstances);
