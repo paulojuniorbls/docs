@@ -54,18 +54,27 @@ icon: 'person-walking'
 
     ```delphi
     // Chamar a função para verificar se o número é um WhatsApp válido
-    procedure TForm9.VerificarNumeroWhatsApp;
-    var
-      IsWhatsAppValido: Boolean;
-      ErrorMsg: string;
-    begin
-      IsWhatsAppValido := ApiEuAtendo1.VerificarNumeroWhatsApp(edtNumeroContato.Text, ErrorMsg);
-      
-      if IsWhatsAppValido then
-        ShowMessage('O número é válido no WhatsApp.')
-      else
-        ShowMessage('Número inválido: ' + ErrorMsg);
-    end;
+    procedure TForm9.Button13Click(Sender: TObject);
+	var
+	  Numero, ErroMsg: string;
+	  Existe: Boolean;
+	begin
+	  Numero := edtNumeroContato.Text; // Assume que edtNumero é um TEdit onde o número é inserido
+	  try
+		Existe := ApiEuAtendo1.ExistWhats(Numero, ErroMsg);
+		if Existe then
+		  memo1.Lines.add('O número ' + Numero + ' existe no WhatsApp.')
+		else if ErroMsg <> '' then
+		  memo1.Lines.add('Erro ao verificar o número: ' + ErroMsg)
+		else
+		  memo1.Lines.add('O número ' + Numero + ' não existe no WhatsApp.');
+	  except
+		on E: Exception do
+		begin
+		  memo1.Lines.add('Erro ao verificar o número: ' + ErroMsg);
+		end;
+	  end;
+	end;
     ```
 
     ## Tratamento de Erros
