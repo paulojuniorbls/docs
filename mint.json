@@ -66,6 +66,8 @@
   "footerSocials": {
     "instagram": "https://instagram.com/apidevsbr",
     "github": "https://github.com/paulojuniorbls/euAtendoWhatsDelphi"
-  }
-feedback.thumbsRating: true
+  },
+  "feedback": {
+    "thumbsRating": true
+   }
 }
