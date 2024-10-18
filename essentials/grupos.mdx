@@ -25,18 +25,22 @@ icon: 'people-group'
 
     // Evento disparado ao obter todos os grupos
     procedure TForm9.ApiEuAtendo1ObterGrupos(Sender: TObject;
-      const Grupos: TGroups);
-    var
-      i: Integer;
-    begin
-      memo1.Lines.Clear;
-      for i := 0 to Length(Grupos) - 1 do
-      begin
-        memo1.Lines.Add('Grupo: ' + Grupos[i].GroupName);
-        memo1.Lines.Add('ID: ' + Grupos[i].GroupID);
-        memo1.Lines.Add('--------------------------------------');
-      end;
-    end;
+	  const Grupos: TGrupos);
+	  var
+	  i:Integer;
+	begin
+	 i:=0;
+		memo1.Lines.Clear;
+	   for I := 0 to Length(Grupos) - 1 do
+	   begin
+
+		  memo1.Lines.Add(grupos[I].ID);
+		  memo1.Lines.Add(grupos[I].Owner);
+		  memo1.Lines.Add(grupos[I].Desc);
+		  memo1.Lines.Add(grupos[I].Subject);
+		  memo1.Lines.Add('----------------------------');
+	   end;
+	end;
     ```
 
     ## Listar Todos os Contatos do Grupo
