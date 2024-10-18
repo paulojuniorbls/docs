@@ -71,6 +71,43 @@ icon: 'image'
     Assim, após a criação da instância, os dados retornados (nome, status, chave API) são armazenados e usados para futuras conexões.
   </Accordion>
   
+  <Accordion icon="mobile" title="Conectar em uma instancia existente">
+    Uma vez que a instancia é criada, voce deve armazenar os dados dela, e usar esses dados sempre que for necessario.
+
+    ## Passo a Passo para utilizar e alternar instancias
+
+    1. Recupere o nome e a chave API da instância previamente salvos..
+    2. Passe os valores ao componente.
+    3. Tente conectar à instância utilizando a função **StatusInstancia**.
+
+    ### Passe os parametros para o componente
+
+    ```delphi
+    procedure TForm9.ConectarInstanciaExistente;
+    var
+      ErrorMsg: string;
+      NomeInstancia: string;
+      ChaveApi: string;
+    begin
+      // Recupera o nome e a chave API da instância previamente armazenados
+      NomeInstancia := edtNome.Text; // Nome da instância previamente salvo
+      ChaveApi := edtSenha.Text;     // Chave API previamente salva (opcional)
+
+      // Passa os valores ao componente
+      ApiEuAtendo1.NomeInstancia := NomeInstancia;
+      ApiEuAtendo1.ChaveApi := ChaveApi;
+
+      // Tenta conectar à instância
+      ApiEuAtendo1.StatusInstancia;
+      
+    end;
+    ```
+	
+	## Resultado Esperado
+    Após a execução bem-sucedida dessa função, o componente estará conectado à instância especificada. Caso ocorra algum erro durante a tentativa de conexão, uma mensagem será exibida com detalhes do erro.
+
+</Accordion>
+  
  <Accordion icon="mobile" title="Consultar Status da Instância">
     Para consultar o status de uma instância já criada, você pode utilizar a função **ApiEuAtendo1.StatusInstancia()**. Após chamar essa função, o evento **OnStatusInstancia** será disparado, retornando as informações de status da instância.
 
@@ -107,7 +144,7 @@ icon: 'image'
 
     Exemplos de estados:
     - **Open**
-    - **Closet**
+    - **Closed**
     - **Connecting**
 
     ## Tratamento de Erros
