@@ -2,11 +2,9 @@
 title: 'Trabalhando com grupos'
 description: 'Nesta seção, abordamos os principais casos de uso para trabalhar com grupos utilizando o componente ApiEuAtendo. 
 As funções relacionadas a grupos são essenciais para quem gerencia interações em massa, permitindo uma comunicação eficiente e organizada 
-com vários contatos de uma só vez. A seguir, explicamos como aproveitar essas funções para obter, listar e interagir com grupos no seu sistema de atendimento.'
+com vários contatos de uma só vez. A seguir, explicamos como aproveitar essas funções para obter, listar e interagir com grupos no seu sistema.'
 icon: 'people-group'
 ---
-
-   Ao trabalhar com grupos, você pode realizar diversas operações
 
     ### Funcionalidades Disponíveis
 
@@ -43,28 +41,42 @@ icon: 'people-group'
 
     ## Listar Todos os Contatos do Grupo
 
-    Para listar todos os contatos de um grupo específico, utilize a função **ApiEuAtendo1.ListarContatosDoGrupo** passando o ID do grupo.
+    Para listar todos os contatos de um grupo específico, utilize a função **ApiEuAtendo1.ObterMembrosGrupo(GroupJid, ErroMsg);** passando o ID do grupo.
 
     ### Exemplo de Código
 
     ```delphi
-    // Chamar a função para listar os contatos de um grupo
-    ApiEuAtendo1.ListarContatosDoGrupo(edtGroupID.Text);
-
-    // Evento disparado ao listar os contatos do grupo
-    procedure TForm9.ApiEuAtendo1ListarContatosDoGrupo(Sender: TObject;
-      const Contatos: TContacts);
-    var
-      i: Integer;
-    begin
-      memo1.Lines.Clear;
-      for i := 0 to Length(Contatos) - 1 do
-      begin
-        memo1.Lines.Add('Contato: ' + Contatos[i].ContactName);
-        memo1.Lines.Add('Número: ' + Contatos[i].PhoneNumber);
-        memo1.Lines.Add('--------------------------------------');
-      end;
-    end;
+    procedure TForm9.Button14Click(Sender: TObject);
+		var
+		  GroupJid, ErroMsg: string;
+		  Membros: TGrupoMembros;
+		  I: Integer;
+		  MembroStr: string;
+		begin
+		memo1.Lines.Clear;
+		  GroupJid := edtIdGrupo.Text; // Assume que edtGroupJid é um TEdit onde o ID do grupo é inserido
+		  try
+			Membros := ApiEuAtendo1.ObterMembrosGrupo(GroupJid, ErroMsg);
+			if Length(Membros) > 0 then
+			begin
+			  MembroStr := 'Membros do grupo: ' + sLineBreak;
+			  for I := 0 to Length(Membros) - 1 do
+			  begin
+				MembroStr := MembroStr + Format('ID: %s, Admin: %s', [Membros[I].ID, BoolToStr(Membros[I].Admin, True)]) + sLineBreak;
+				memo1.Lines.Add(MembroStr);
+			  end;
+			end
+			else if ErroMsg <> '' then
+			  ShowMessage('Erro ao obter membros do grupo: ' + ErroMsg)
+			else
+			  ShowMessage('Nenhum membro encontrado para o grupo ' + GroupJid);
+		  except
+			on E: Exception do
+			begin
+			  ShowMessage('Erro ao obter membros do grupo: ' + E.Message);
+			end;
+		  end;
+		end;
     ```
 
     ## Enviar Mensagem para o Grupo
@@ -79,7 +91,7 @@ icon: 'people-group'
     var
       ErrorMsg: string;
     begin
-      if not ApiEuAtendo1.EnviarMensagemParaGrupo(edtGroupID.Text, edtMensagem.Text, ErrorMsg) then
+      if not ApiEuAtendo1.EnviarMensagemDeTexto(edtGroupID.Text, edtMensagem.Text, ErrorMsg) then
       begin
         ShowMessage('Erro ao enviar mensagem: ' + ErrorMsg);
       end
@@ -98,19 +110,17 @@ icon: 'people-group'
 
     ```delphi
     // Chamar a função para enviar uma marcação fantasma para o grupo
-    procedure TForm9.EnviarMarcacaoFantasma;
-    var
-      ErrorMsg: string;
-    begin
-      if not ApiEuAtendo1.EnviarMarcacaoFantasma(edtGroupID.Text, edtMensagem.Text, ErrorMsg) then
-      begin
-        ShowMessage('Erro ao enviar marcação fantasma: ' + ErrorMsg);
-      end
-      else
-      begin
-        ShowMessage('Marcação fantasma enviada com sucesso!');
-      end;
-    end;
+    procedure TForm9.Button19Click(Sender: TObject);
+		var
+		erro:String;
+		begin
+
+		  if edtIdGrupo.Text <> '' then
+			 ApiEuAtendo1.SendMessageGhostMentionToGroup(edtIdGrupo.Text,memoMensagemEnviar.Lines.text,erro);// SendMessageGhostMentionToGroup
+
+		  if erro <> '' then
+			ShowMessage(erro);
+		end;
     ```
 
     ## Tratamento de Erros
