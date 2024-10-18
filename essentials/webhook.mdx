@@ -34,7 +34,7 @@ icon: 'code'
     Aqui está um exemplo de como você pode configurar um servidor simples para escutar as requisições do webhook:
 
     ```delphi
-			unit Main.Form;
+		unit Main.Form;
 		interface
 		uses Winapi.Windows, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
 		  Vcl.Buttons, System.SysUtils,DataSet.Serialize, FireDAC.Stan.Intf,
@@ -142,38 +142,15 @@ icon: 'code'
 
     O JSON enviado pelo webhook pode conter diversas informações, como o status de uma mensagem ou o conteúdo de uma nova mensagem recebida. Você pode usar bibliotecas como **SuperObject** ou **XSuperObject** para processar o JSON e extrair os dados que deseja.
 
-    Exemplo de tratamento de JSON:
+    Exemplo de onde jogar o JSON para ler e observar seu conteudo para tratar em seguida:
 
     ```delphi
-    uses
-      XSuperObject;
-
-    procedure TratarWebhook(const BodyData: string);
-    var
-      Json: ISuperObject;
-    begin
-      // Carregar o JSON recebido no webhook
-      Json := SO(BodyData);
-
-      // Exemplo: acessar o status da mensagem
-      if Json.S['event'] = 'message_status' then
-      begin
-        Writeln('Status: ' + Json.S['status']);
-      end;
-    end;
+     memo1.Lines.Add(req.Body);
     ```
 
     ## Testando o Webhook
 
-    Para testar o seu webhook, você pode usar ferramentas como **ngrok** para expor o servidor local na internet e verificar se ele está recebendo os eventos corretamente. O **ngrok** cria um túnel seguro para seu servidor local, tornando-o acessível publicamente.
-
-    ### Exemplo de uso do ngrok
-
-    ```bash
-    ngrok http 9000
-    ```
-
-    Após rodar esse comando, o ngrok fornecerá uma URL pública para seu servidor local que você pode configurar como o endpoint do webhook no sistema.
+    Para testar o seu webhook, você pode usar ferramentas como **ngrok** ou tunnel CloudFlare, Radmin VPN, Hamachi para expor o servidor local na internet e verificar se ele está recebendo os eventos corretamente. O **ngrok** cria um túnel seguro para seu servidor local, tornando-o acessível publicamente.
 
     ## Conclusão
 
