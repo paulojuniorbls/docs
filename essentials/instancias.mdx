@@ -4,57 +4,70 @@ description: 'A funcionalidade de instâncias no componente euAtendo é essencia
 Nesta seção, vamos aprender como criar, configurar e gerenciar instâncias, garantindo um controle eficiente sobre as operações de atendimento.'
 icon: 'image'
 ---
+<AccordionGroup>
+  <Accordion icon="server" title="Autenticando o servidor da API">
+    Para usar o componente euAtendo, é necessário definir o servidor URL e a GlobalAPI antes de utilizar as funções. Esses valores podem ser fixados no seu código, pois geralmente não mudam.
 
-<img
-  style={{ borderRadius: '0.5rem' }}
-  src="https://mintlify-assets.b-cdn.net/bigbend.jpg"
-/>
+    Caso ainda não possua um servidor privado, você pode testar utilizando o servidor **COMUNITÁRIO DISPONÍVEL**:
 
-## Image
+    - **ApiGlobal:** ASD3F21APIDEVS6A5SPAULOJRDEVFA1
+    - **endPoint:** https://apiv1demo.apidevs.app
+    - **Manager:** https://apiv1demo.apidevs.app/manager
 
-### Using Markdown
+    Abaixo segue um exemplo de como configurar esses valores no evento **onShow** do formulário em Delphi:
 
-The [markdown syntax](https://www.markdownguide.org/basic-syntax/#images) lets you add images using the following code
+    ```delphi
+    procedure TForm1.FormShow(Sender: TObject);
+    begin
+      ApiEuAtendo1.VersionAPI := TVersionOption.V1; // Definir a versão da API
+      ApiEuAtendo1.GlobalAPI := 'ASD3F21APIDEVS6A5SPAULOJRDEVFA1'; // Chave Global API
+      ApiEuAtendo1.EvolutionApiURL := 'https://apiv1demo.apidevs.app'; // URL do servidor
+    end;
+    ```
+  </Accordion>
 
-```md
-![title](/path/image.jpg)
-```
+  <Accordion icon="mobile" title="Instâncias 'Celulares de Clientes'">
+    Cada instância representa um dispositivo conectado (por exemplo, o celular de um cliente). Pode ser utilizado para uma única empresa ou para diferentes empresas. 
 
-Note that the image file size must be less than 5MB. Otherwise, we recommend hosting on a service like [Cloudinary](https://cloudinary.com/) or [S3](https://aws.amazon.com/s3/). You can then use that URL and embed.
+    Sempre que uma instância é criada, é obrigatório salvar o nome e a senha da instância para uso futuro. Dessa forma, sempre que o ERP for inicializado, os valores serão passados ao componente durante a sua inicialização.
 
-### Using Embeds
+    Antes de chamar a função **CriarInstancia**, é necessário passar dois parâmetros ao componente:
 
-To get more customizability with images, you can also use [embeds](/writing-content/embed) to add images
+    ```delphi
+    ApiEuAtendo1.NomeInstancia := edtNome.Text; // Nome da instância
+    ApiEuAtendo1.ChaveApi      := edtSenha.Text; // Chave API da instância (Opcional)
+    ```
 
-```html
-<img height="200" src="/path/image.jpg" />
-```
+    A criação de uma instância pode ser feita da seguinte forma:
 
-## Embeds and HTML elements
+    ```delphi
+    var
+      ErrorMsg: string;
+    begin
+      if not ApiEuAtendo1.CriarInstancia(ErrorMsg) then
+      begin
+        ShowMessage('Erro ao criar instância: ' + ErrorMsg);
+        Exit;
+      end;
+    end;
+    ```
 
-<iframe
-  width="560"
-  height="315"
-  src="https://www.youtube.com/embed/4KzFe50RQkQ"
-  title="YouTube video player"
-  frameBorder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowFullScreen
-  style={{ width: '100%', borderRadius: '0.5rem' }}
-></iframe>
+    Após chamar a função para criar a instância, é necessário implementar o evento que será disparado com as informações da instância recém-criada:
 
-<br />
+    ```delphi
+    procedure TForm9.ApiEuAtendo1CriarInstancia(Sender: TObject;
+      const InstanceResponse: TInstanceResponse);
+    begin
+      edtNome.Text   := InstanceResponse.InstanceName; // Nome da instância
+      edtStatus.Text := InstanceResponse.Status;       // Status da instância
+      edtSenha.Text  := InstanceResponse.ApiKey;       // Chave API da instância
 
-<Tip>
+      // Configurar o componente com os dados da nova instância
+      ApiEuAtendo1.ChaveApi      := InstanceResponse.ApiKey;
+      ApiEuAtendo1.NomeInstancia := InstanceResponse.InstanceName;
+    end;
+    ```
 
-Mintlify supports [HTML tags in Markdown](https://www.markdownguide.org/basic-syntax/#html). This is helpful if you prefer HTML tags to Markdown syntax, and lets you create documentation with infinite flexibility.
-
-</Tip>
-
-### iFrames
-
-Loads another HTML page within the document. Most commonly used for embedding videos.
-
-```html
-<iframe src="https://www.youtube.com/embed/4KzFe50RQkQ"> </iframe>
-```
+    Assim, após a criação da instância, os dados retornados (nome, status, chave API) são armazenados e usados para futuras conexões.
+  </Accordion>
+</AccordionGroup>
