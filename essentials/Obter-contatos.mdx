@@ -14,14 +14,13 @@ icon: 'person-walking'
 
     ## Obter Dados do Contato, ele retorna o PushName do contato
 
-    Para obter informações detalhadas de um contato, como nome e status, utilize a função **ApiEuAtendo1.ObterDadosDoContato**, passando o número do contato como parâmetro.
+    Para obter o PushName do contato utilize a função **ApiEuAtendo1.ObterDadosDoContato**, passando o número do contato como parâmetro.
 
     ### Exemplo de Código
 
     ```delphi
     // Chamar a função para obter dados de um contato
     contato := ApiEuAtendo1.ObterDadosContato(edtNumeroContato.Text,erro);
-
     ```
 
     ## Obter Foto de Perfil do Contato
@@ -33,7 +32,10 @@ icon: 'person-walking'
     ```delphi
     // Chamar a função para obter a foto de perfil de um contato
     ApiEuAtendo1.ObterFotoPerfil(edtNumeroContato.Text);
-
+    ```
+   
+   ### Após chamar a função ele dispara o metodo OnObterFotoPerfil do componente
+    ```delphi
     // Evento disparado ao obter a foto de perfil do contato
     procedure TForm9.ApiEuAtendo1ObterFotoPerfil(Sender: TObject;
 	  const FotoPerfilResponse: TFotoPerfilResponse);
