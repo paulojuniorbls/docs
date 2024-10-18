@@ -71,6 +71,59 @@ icon: 'image'
     Assim, após a criação da instância, os dados retornados (nome, status, chave API) são armazenados e usados para futuras conexões.
   </Accordion>
   
+  <Accordion icon="mobile" title="Conectar a uma Instância já Criada">
+    Para conectar a uma instância previamente criada, é necessário garantir que o nome e a chave API da instância já estejam salvos. Esses valores serão passados ao componente para estabelecer a conexão.
+
+    ## Passo a Passo para Conexão
+
+    1. Recupere o nome e a chave API da instância previamente salvos.
+    2. Passe os valores ao componente.
+    3. Tente conectar à instância utilizando a função **ConectarInstancia**.
+
+    ### Exemplo de Código
+
+    ```delphi
+    procedure TForm9.ConectarInstanciaExistente;
+    var
+      ErrorMsg: string;
+      NomeInstancia: string;
+      ChaveApi: string;
+    begin
+      // Recupera o nome e a chave API da instância previamente armazenados
+      NomeInstancia := edtNome.Text; // Nome da instância previamente salvo
+      ChaveApi := edtSenha.Text;     // Chave API previamente salva (opcional)
+
+      // Passa os valores ao componente
+      ApiEuAtendo1.NomeInstancia := NomeInstancia;
+      ApiEuAtendo1.ChaveApi := ChaveApi;
+
+      // Tenta conectar à instância
+      if not ApiEuAtendo1.ConectarInstancia(ErrorMsg) then
+      begin
+        ShowMessage('Erro ao conectar à instância: ' + ErrorMsg);
+        Exit;
+      end;
+
+      ShowMessage('Conectado à instância: ' + NomeInstancia);
+    end;
+    ```
+
+    ## Resultado Esperado
+    Após a execução bem-sucedida dessa função, o componente estará conectado à instância especificada. Caso ocorra algum erro durante a tentativa de conexão, uma mensagem será exibida com detalhes do erro.
+
+    ## Tratamento de Erros
+    Caso a conexão falhe, o erro será capturado na variável `ErrorMsg`, e uma mensagem será exibida informando o erro ocorrido:
+
+    ```delphi
+    if not ApiEuAtendo1.ConectarInstancia(ErrorMsg) then
+    begin
+      ShowMessage('Erro ao conectar à instância: ' + ErrorMsg);
+      Exit;
+    end;
+    ```
+</Accordion>
+
+  
   
   
   
