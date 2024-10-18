@@ -10,32 +10,25 @@ Nesta página, destacamos os principais **projetos que utilizam o componente euA
 
 ---
 
-## 1. Monitorador de Oportunidades
+	<AccordionGroup>
+	  <Accordion icon="server" title="1. Monitorador de Oportunidades">
 
-O **Monitorador de Oportunidades** é um dos nossos principais projetos utilizando o componente **euAtendo**. Ele foi desenvolvido para detectar oportunidades de negócio em grupos de mensagens, facilitando o acompanhamento e engajamento com possíveis clientes ou parceiros.
 
-### Funcionalidades Principais:
-- **Detecção de palavras-chave**: O monitorador identifica mensagens relevantes que contêm palavras-chave configuradas, sinalizando oportunidades de negócios.
-- **Envio automático de mensagens**: Com base nas oportunidades detectadas, o sistema pode enviar mensagens automáticas ou alertar o operador responsável.
-- **Monitoramento contínuo de grupos**: O sistema verifica os grupos de forma contínua, garantindo que nenhuma oportunidade seja perdida.
+		## 1. Monitorador de Oportunidades
 
-### Casos de Uso do Monitorador de Oportunidades:
-1. **Monitorar Grupos de Mensagens**: O sistema se conecta a diversos grupos de mensagens e monitora continuamente as conversas, detectando palavras-chave específicas.
-2. **Enviar Mensagens para Oportunidades**: Ao detectar uma oportunidade, o sistema pode enviar mensagens personalizadas ou alertar o operador para uma interação manual.
-3. **Automatização de Processos**: O monitorador atua de forma automatizada, identificando e engajando potenciais clientes em tempo real.
+		O **Monitorador de Oportunidades** é um dos nossos principais projetos utilizando o componente **euAtendo**. Ele foi desenvolvido para detectar oportunidades de negócio em grupos de mensagens, facilitando o acompanhamento e engajamento com possíveis clientes ou parceiros.
 
-### Exemplo de Implementação: Monitorando Grupos de Mensagens
+		### Funcionalidades Principais:
+		- **Detecção de palavras-chave**: O monitorador identifica mensagens relevantes que contêm palavras-chave configuradas, sinalizando oportunidades de negócios.
+		- **Envio automático de mensagens**: Com base nas oportunidades detectadas, o sistema pode enviar mensagens automáticas ou alertar o operador responsável.
+		- **Monitoramento contínuo de grupos**: O sistema verifica os grupos de forma contínua, garantindo que nenhuma oportunidade seja perdida.
 
-```delphi
-procedure MonitorarGrupo;
-begin
-  // Configura o monitoramento contínuo do grupo
-  ApiEuAtendo1.ObterGrupos;
+		### Casos de Uso do Monitorador de Oportunidades:
+		1. **Monitorar Grupos de Mensagens**: O sistema se conecta a diversos grupos de mensagens e monitora continuamente as conversas, detectando palavras-chave específicas.
+		2. **Enviar Mensagens para Oportunidades**: Ao detectar uma oportunidade, o sistema pode enviar mensagens personalizadas ou alertar o operador para uma interação manual.
+		3. **Automatização de Processos**: O monitorador atua de forma automatizada, identificando e engajando potenciais clientes em tempo real.
 
-  ApiEuAtendo1.OnObterInstancias := procedure(Sender: TObject; const Instancias: TInstances)
-  begin
-    for var i := 0 to Length(Instancias) - 1 do
-      if Instancias[i].InstanceName.Contains('Grupo') then
-        Memo1.Lines.Add('Monitorando grupo: ' + Instancias[i].InstanceName);
-  end;
-end;
+		### Exemplo de Implementação: Monitorando Grupos de Mensagens
+	  </Accordion>
+
+	</AccordionGroup>
