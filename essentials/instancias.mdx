@@ -70,4 +70,51 @@ icon: 'image'
 
     Assim, após a criação da instância, os dados retornados (nome, status, chave API) são armazenados e usados para futuras conexões.
   </Accordion>
+  
+  <Accordion icon="mobile" title="Conectar a uma Instância já Criada">
+  
+  # H1 Title
+# 📱 Conectar a uma Instância já Criada
+
+Cada instância no **euAtendo** representa um dispositivo conectado, como o celular de um cliente. Após criar uma instância, é possível reconectar-se a ela utilizando o nome e a chave da API previamente salvos.
+
+## Pré-requisitos
+
+- O nome da instância e a chave da API devem estar salvos no banco de dados ou em variáveis persistentes.
+- O componente **ApiEuAtendo** deve estar devidamente configurado para realizar a conexão.
+
+## Exemplo de Código
+
+Aqui está um exemplo de como conectar a uma instância já criada, utilizando Delphi:
+
+```delphi
+procedure TForm9.ConectarInstanciaExistente;
+var
+  ErrorMsg: string;
+  NomeInstancia: string;
+  ChaveApi: string;
+begin
+  // Recupera o nome e a chave API da instância previamente armazenados
+  NomeInstancia := edtNome.Text; // Nome da instância previamente salvo
+  ChaveApi := edtSenha.Text;     // Chave API previamente salva (opcional)
+
+  // Passa os valores ao componente
+  ApiEuAtendo1.NomeInstancia := NomeInstancia;
+  ApiEuAtendo1.ChaveApi := ChaveApi;
+
+  // Tenta conectar à instância
+  if not ApiEuAtendo1.ConectarInstancia(ErrorMsg) then
+  begin
+    ShowMessage('Erro ao conectar à instância: ' + ErrorMsg);
+    Exit;
+  end;
+
+  ShowMessage('Conectado à instância: ' + NomeInstancia);
+end;
+  
+  </Accordion>
+  
+  
+  
+  
 </AccordionGroup>
