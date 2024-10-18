@@ -71,57 +71,45 @@ icon: 'image'
     Assim, após a criação da instância, os dados retornados (nome, status, chave API) são armazenados e usados para futuras conexões.
   </Accordion>
   
-  <Accordion icon="mobile" title="Conectar a uma Instância já Criada">
-    Para conectar a uma instância previamente criada, é necessário garantir que o nome e a chave API da instância já estejam salvos. Esses valores serão passados ao componente para estabelecer a conexão.
+ <Accordion icon="mobile" title="Consultar Status da Instância">
+    Para consultar o status de uma instância já criada, você pode utilizar a função **ApiEuAtendo1.StatusInstancia()**. Após chamar essa função, o evento **OnStatusInstancia** será disparado, retornando as informações de status da instância.
 
-    ## Passo a Passo para Conexão
+    ## Passo a Passo para Consultar o Status
 
-    1. Recupere o nome e a chave API da instância previamente salvos.
-    2. Passe os valores ao componente.
-    3. Tente conectar à instância utilizando a função **ConectarInstancia**.
+    1. Chame a função **StatusInstancia** para consultar o status da instância.
+    2. O evento **OnStatusInstancia** será disparado com o retorno do status da instância.
+    3. Utilize os valores retornados para atualizar os campos ou interface conforme necessário.
 
     ### Exemplo de Código
 
     ```delphi
-    procedure TForm9.ConectarInstanciaExistente;
-    var
-      ErrorMsg: string;
-      NomeInstancia: string;
-      ChaveApi: string;
+    // Chamar a função para consultar o status da instância
+    ApiEuAtendo1.StatusInstancia;
+
+    // Evento disparado ao consultar o status
+    procedure TForm9.ApiEuAtendo1StatusInstancia(Sender: TObject;
+      const InstanceStatus: TInstanceStatus);
     begin
-      // Recupera o nome e a chave API da instância previamente armazenados
-      NomeInstancia := edtNome.Text; // Nome da instância previamente salvo
-      ChaveApi := edtSenha.Text;     // Chave API previamente salva (opcional)
-
-      // Passa os valores ao componente
-      ApiEuAtendo1.NomeInstancia := NomeInstancia;
-      ApiEuAtendo1.ChaveApi := ChaveApi;
-
-      // Tenta conectar à instância
-      if not ApiEuAtendo1.ConectarInstancia(ErrorMsg) then
-      begin
-        ShowMessage('Erro ao conectar à instância: ' + ErrorMsg);
-        Exit;
-      end;
-
-      ShowMessage('Conectado à instância: ' + NomeInstancia);
+      edtNome.Text   := InstanceStatus.InstanceName; // Nome da instância
+      edtStatus.Text := InstanceStatus.State;        // Status da instância
     end;
     ```
 
     ## Resultado Esperado
-    Após a execução bem-sucedida dessa função, o componente estará conectado à instância especificada. Caso ocorra algum erro durante a tentativa de conexão, uma mensagem será exibida com detalhes do erro.
+    Após chamar a função **StatusInstancia**, o evento **OnStatusInstancia** será disparado automaticamente, retornando informações como o nome da instância e o estado atual. Essas informações podem ser utilizadas para atualizar a interface ou tomar ações com base no status da instância.
+
+    ## Possíveis Estados de Instância
+    O valor `InstanceStatus.State` retornará o estado atual da instância, que pode ser utilizado para monitorar se a instância está conectada, desconectada, ou em outro estado.
+
+    Exemplos de estados:
+    - **Open**
+    - **Closet**
+    - **Connecting**
 
     ## Tratamento de Erros
-    Caso a conexão falhe, o erro será capturado na variável `ErrorMsg`, e uma mensagem será exibida informando o erro ocorrido:
-
-    ```delphi
-    if not ApiEuAtendo1.ConectarInstancia(ErrorMsg) then
-    begin
-      ShowMessage('Erro ao conectar à instância: ' + ErrorMsg);
-      Exit;
-    end;
-    ```
+    Caso haja algum problema na consulta do status, certifique-se de que a instância está corretamente configurada e ativa.
 </Accordion>
+
 
   
   
