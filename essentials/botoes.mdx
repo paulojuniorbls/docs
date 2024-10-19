@@ -129,3 +129,43 @@ end;
 
 Neste exemplo, criamos um objeto do tipo `TBotao` e definimos suas propriedades, incluindo o tipo `reply`, o texto do botão e um identificador (`Id`) para a resposta rápida. Em seguida, utilizamos o método `EnviarBotao` do componente `ApiEuAtendo` para enviar o botão para o número de telefone especificado, juntamente com uma mensagem personalizada incentivando o usuário a responder rapidamente e continuar o fluxo de atendimento.
 
+
+## Utilizando Múltiplos Botões
+
+### Caso de Uso
+
+A API EuAtendo permite o envio de até 3 botões em uma única mensagem. Esses botões podem ser do mesmo tipo ou de tipos distintos. Utilizar múltiplos botões é uma ótima maneira de fornecer opções variadas ao usuário, facilitando a interação e orientando-o para ações específicas. No entanto, o envio de mais de 3 botões pode ser perigoso, pois compromete a API.
+
+Por exemplo, você pode combinar botões de URL, Copy e Call para oferecer várias opções ao usuário em uma única interação.
+
+### Implementação em Delphi
+
+Abaixo, um exemplo de como implementar múltiplos botões usando Delphi para integrar com a API EuAtendo:
+
+```delphi
+procedure TForm1.EnviarMultiplosBotoes;
+var
+  Botao1, Botao2, Botao3: TBotao;
+begin
+  // Definindo o primeiro botão (URL)
+  Botao1.Tipo := 'url';
+  Botao1.Texto := 'Acesse nosso site';
+  Botao1.Url := 'https://www.apidevs.com.br';
+
+  // Definindo o segundo botão (Copy)
+  Botao2.Tipo := 'copy';
+  Botao2.Texto := 'Copie seu código promocional';
+  Botao2.Codigo := 'PROMO2024';
+
+  // Definindo o terceiro botão (Call)
+  Botao3.Tipo := 'call';
+  Botao3.Texto := 'Ligue para o suporte';
+  Botao3.NumeroTelefone := '+5511999999999';
+
+  // Enviando os botões usando o método EnviarMultiplosBotoes
+  ApiEuAtendo.EnviarMultiplosBotoes('559991772344', 'Apidevs informa', 'Escolha uma das opções abaixo para continuar:', 'Estamos aqui para ajudar', [Botao1, Botao2, Botao3]);
+end;
+```
+
+Neste exemplo, criamos três objetos do tipo `TBotao` e definimos suas propriedades. Utilizamos o método `EnviarMultiplosBotoes` do componente `ApiEuAtendo` para enviar os três botões ao usuário em uma única mensagem, proporcionando uma experiência rica e interativa.
+
