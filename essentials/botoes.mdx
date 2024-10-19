@@ -32,7 +32,7 @@ Abaixo, um exemplo de como implementar o botão URL usando Delphi para integrar 
 ```delphi
 procedure TForm1.EnviarBotaoURL;
 var
-  Botao: TBotao;
+  Botao: TButtonTipo;
 begin
   Botao.Tipo := 'url';
   Botao.Texto := 'Clique aqui para acessar sua fatura';
@@ -43,7 +43,7 @@ begin
 end;
 ```
 
-Neste exemplo, criamos um objeto do tipo `TBotao` e definimos suas propriedades, incluindo o tipo `url`, o texto do botão e a URL que o usuário deve acessar. Em seguida, utilizamos o método `EnviarBotao` do componente `ApiEuAtendo1` para enviar o botão para o número de telefone especificado, com uma mensagem personalizada.
+Neste exemplo, criamos um objeto do tipo `TButtonTipo` e definimos suas propriedades, incluindo o tipo `url`, o texto do botão e a URL que o usuário deve acessar. Em seguida, utilizamos o método `EnviarBotao` do componente `ApiEuAtendo1` para enviar o botão para o número de telefone especificado, com uma mensagem personalizada.
 
 ## Botão Call
 
@@ -60,7 +60,7 @@ Abaixo, um exemplo de como implementar o botão Call usando Delphi para integrar
 ```delphi
 procedure TForm1.EnviarBotaoCall;
 var
-  Botao: TBotao;
+  Botao: TButtonTipo;
 begin
   Botao.Tipo := 'call';
   Botao.Texto := 'Clique aqui para ligar para o suporte';
@@ -71,7 +71,7 @@ begin
 end;
 ```
 
-Neste exemplo, criamos um objeto do tipo `TBotao` e definimos suas propriedades, incluindo o tipo `call`, o texto do botão e o número de telefone que o usuário deve ligar. Em seguida, utilizamos o método `EnviarBotao` do componente `ApiEuAtendo` para enviar o botão para o número de telefone especificado, juntamente com uma mensagem personalizada que incentiva o usuário a entrar em contato com o suporte.
+Neste exemplo, criamos um objeto do tipo `TButtonTipo` e definimos suas propriedades, incluindo o tipo `call`, o texto do botão e o número de telefone que o usuário deve ligar. Em seguida, utilizamos o método `EnviarBotao` do componente `ApiEuAtendo` para enviar o botão para o número de telefone especificado, juntamente com uma mensagem personalizada que incentiva o usuário a entrar em contato com o suporte.
 
 ## Botão Copy
 
@@ -88,7 +88,7 @@ Abaixo, um exemplo de como implementar o botão Copy usando Delphi para integrar
 ```delphi
 procedure TForm1.EnviarBotaoCopy;
 var
-  Botao: TBotao;
+  Botao: TButtonTipo;
 begin
   Botao.Tipo := 'copy';
   Botao.Texto := 'Clique aqui para copiar o código promocional';
@@ -99,7 +99,7 @@ begin
 end;
 ```
 
-Neste exemplo, criamos um objeto do tipo `TBotao` e definimos suas propriedades, incluindo o tipo `copy`, o texto do botão e o código que deve ser copiado. Em seguida, utilizamos o método `EnviarBotao` do componente `ApiEuAtendo` para enviar o botão para o número de telefone especificado, juntamente com uma mensagem personalizada incentivando o usuário a aproveitar o código promocional.
+Neste exemplo, criamos um objeto do tipo `TButtonTipo` e definimos suas propriedades, incluindo o tipo `copy`, o texto do botão e o código que deve ser copiado. Em seguida, utilizamos o método `EnviarBotao` do componente `ApiEuAtendo` para enviar o botão para o número de telefone especificado, juntamente com uma mensagem personalizada incentivando o usuário a aproveitar o código promocional.
 
 ## Botão Reply
 
@@ -116,7 +116,7 @@ Abaixo, um exemplo de como implementar o botão Reply usando Delphi para integra
 ```delphi
 procedure TForm1.EnviarBotaoReply;
 var
-  Botao: TBotao;
+  Botao: TButtonTipo;
 begin
   Botao.Tipo := 'reply';
   Botao.Texto := 'Clique aqui para responder';
@@ -127,7 +127,7 @@ begin
 end;
 ```
 
-Neste exemplo, criamos um objeto do tipo `TBotao` e definimos suas propriedades, incluindo o tipo `reply`, o texto do botão e um identificador (`Id`) para a resposta rápida. Em seguida, utilizamos o método `EnviarBotao` do componente `ApiEuAtendo` para enviar o botão para o número de telefone especificado, juntamente com uma mensagem personalizada incentivando o usuário a responder rapidamente e continuar o fluxo de atendimento.
+Neste exemplo, criamos um objeto do tipo `TButtonTipo` e definimos suas propriedades, incluindo o tipo `reply`, o texto do botão e um identificador (`Id`) para a resposta rápida. Em seguida, utilizamos o método `EnviarBotao` do componente `ApiEuAtendo` para enviar o botão para o número de telefone especificado, juntamente com uma mensagem personalizada incentivando o usuário a responder rapidamente e continuar o fluxo de atendimento.
 
 
 ## Utilizando Múltiplos Botões
@@ -145,7 +145,7 @@ Abaixo, um exemplo de como implementar múltiplos botões usando Delphi para int
 ```delphi
 procedure TForm1.EnviarMultiplosBotoes;
 var
-  Botao1, Botao2, Botao3: TBotao;
+  Botao1, Botao2, Botao3: TButtonTipo;
 begin
   // Definindo o primeiro botão (URL)
   Botao1.Tipo := 'url';
@@ -167,5 +167,5 @@ begin
 end;
 ```
 
-Neste exemplo, criamos três objetos do tipo `TBotao` e definimos suas propriedades. Utilizamos o método `EnviarMultiplosBotoes` do componente `ApiEuAtendo` para enviar os três botões ao usuário em uma única mensagem, proporcionando uma experiência rica e interativa.
+Neste exemplo, criamos três objetos do tipo `TButtonTipo` e definimos suas propriedades. Utilizamos o método `EnviarMultiplosBotoes` do componente `ApiEuAtendo` para enviar os três botões ao usuário em uma única mensagem, proporcionando uma experiência rica e interativa.
 
