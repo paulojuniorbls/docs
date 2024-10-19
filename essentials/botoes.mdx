@@ -35,12 +35,41 @@ icon: 'image'
 	  Botao: TBotao;
 	begin
 	  Botao.Tipo := 'url';
-	  Botao.Texto := 'Clique aqui para acessar nossa documentação';
-	  Botao.Url := 'https://doc.apicomponente.com.br;
+	  Botao.Texto := 'Clique aqui para acessar sua fatura';
+	  Botao.Url := 'https://fatura.clientbase.com.br/de056ae8-16cd-4c45-a103-a6bfe2023850';
 	  
 	  // Envia o botão usando o método EnviarBotao
-	  ApiEuAtendo1.EnviarBotao('559991772344', 'Apidevs informa', 'Sua documentação está aqui.', 'Agradeçemos a preferência', Botao);
+	  ApiEuAtendo1.EnviarBotao('559991772344', 'Apidevs informa', 'Segue link da sua fatura em aberto.', 'Agradeçemos a preferência', Botao);
 	end;
 	```
 
 	Neste exemplo, criamos um objeto do tipo `TBotao` e definimos suas propriedades, incluindo o tipo `url`, o texto do botão e a URL que o usuário deve acessar. Em seguida, utilizamos o método `EnviarBotao` do componente `ApiEuAtendo1` para enviar o botão para o número de telefone especificado, com uma mensagem personalizada.
+
+	## Botão Call
+
+	### Caso de Uso
+
+	O botão Call é utilizado para permitir que o usuário faça uma ligação telefônica diretamente do atendimento. Isso é especialmente útil quando o usuário precisa de suporte imediato ou deseja entrar em contato com um setor específico da empresa.
+
+	Por exemplo, se o usuário precisar de ajuda com algum problema técnico, você pode disponibilizar um botão que o direciona a ligar diretamente para o suporte técnico.
+
+	### Implementação em Delphi
+
+	Abaixo, um exemplo de como implementar o botão Call usando Delphi para integrar com a API EuAtendo:
+
+	```delphi
+	procedure TForm1.EnviarBotaoCall;
+	var
+	  Botao: TBotao;
+	begin
+	  Botao.Tipo := 'call';
+	  Botao.Texto := 'Clique aqui para ligar para o suporte';
+	  Botao.NumeroTelefone := '+5511999999999';
+	  
+	  // Envia o botão usando o método EnviarBotao
+	  ApiEuAtendo.EnviarBotao('559991772344', 'Apidevs informa', 'Precisa de ajuda? Ligue para o nosso suporte.', 'Estamos sempre prontos para ajudar', Botao);
+	end;
+	```
+
+	Neste exemplo, criamos um objeto do tipo `TBotao` e definimos suas propriedades, incluindo o tipo `call`, o texto do botão e o número de telefone que o usuário deve ligar. Em seguida, utilizamos o método `EnviarBotao` do componente `ApiEuAtendo` para enviar o botão para o número de telefone especificado, juntamente com uma mensagem personalizada que incentiva o usuário a entrar em contato com o suporte.
+
