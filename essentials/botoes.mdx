@@ -1,0 +1,46 @@
+---
+title: 'Botões'
+description: 'Nesta seção, você aprenderá como utilizar diferentes tipos de botões na API EuAtendo'
+icon: 'image'
+---
+
+	# Botões
+
+	## Introdução
+
+	Nesta seção, você aprenderá como utilizar diferentes tipos de botões na API EuAtendo. Os botões são elementos interativos que podem ser utilizados para melhorar a experiência do usuário durante o atendimento, facilitando a execução de ações específicas de forma rápida e eficiente. Abaixo, detalhamos cada tipo de botão suportado:
+
+	1. **URL**: Abre um link específico para o usuário, permitindo acesso direto a uma página da web.
+	2. **Call**: Permite que o usuário faça uma ligação para um número de telefone.
+	3. **Copy**: Copia automaticamente um texto ou código para a área de transferência do usuário.
+	4. **Reply**: Envia uma resposta rápida, permitindo interação direta com o atendimento.
+
+	Nesta documentação, vamos explorar cada um desses botões, apresentando exemplos práticos e dicas de uso para facilitar sua implementação e maximizar a eficiência do seu atendimento.
+
+	## Botão URL
+
+	### Caso de Uso
+
+	O botão URL é utilizado para direcionar o usuário para uma página específica na web. Ele pode ser muito útil para compartilhar informações adicionais, direcionar o usuário para um site de suporte, uma landing page promocional, ou qualquer outro recurso que complemente o atendimento.
+
+	Por exemplo, imagine que durante um atendimento o usuário esteja interessado em acessar sua fatura. Um botão URL pode ser disponibilizado para que ele seja direcionado diretamente para a página da fatura.
+
+	### Implementação em Delphi
+
+	Abaixo, um exemplo de como implementar o botão URL usando Delphi para integrar com a API EuAtendo:
+
+	```delphi
+	procedure TForm1.EnviarBotaoURL;
+	var
+	  Botao: TBotao;
+	begin
+	  Botao.Tipo := 'url';
+	  Botao.Texto := 'Clique aqui para acessar nossa documentação';
+	  Botao.Url := 'https://doc.apicomponente.com.br;
+	  
+	  // Envia o botão usando o método EnviarBotao
+	  ApiEuAtendo1.EnviarBotao('559991772344', 'Apidevs informa', 'Sua documentação está aqui.', 'Agradeçemos a preferência', Botao);
+	end;
+	```
+
+	Neste exemplo, criamos um objeto do tipo `TBotao` e definimos suas propriedades, incluindo o tipo `url`, o texto do botão e a URL que o usuário deve acessar. Em seguida, utilizamos o método `EnviarBotao` do componente `ApiEuAtendo1` para enviar o botão para o número de telefone especificado, com uma mensagem personalizada.
