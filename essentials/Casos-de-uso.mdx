@@ -82,11 +82,10 @@ Nesta página, destacamos os principais **projetos que utilizam o componente euA
 
   ### Exemplo de Implementação: Automatizando a Autorização de Vendas
   - **Fluxo de Operação**:
-    1. O vendedor envia uma mensagem via WhatsApp com o código de autorização e indica se a venda deve ser liberada ou bloqueada.
-    2. O sistema processa a mensagem, extraindo o código e identificando a ação solicitada, mesmo com variações linguísticas.
-    3. Se a venda exceder limites estabelecidos, o sistema monta uma mensagem detalhada e envia ao gerente para aprovação.
-    4. O gerente responde via WhatsApp, e o sistema atualiza o status da venda conforme a autorização recebida.
-
+    1. O ERP envia uma mensagem via WhatsApp com o código de autorização e monta uma mensagem detalhada e envia aos gerente para aprovação.
+    2. O gerente responde via WhatsApp, e o sistema atualiza o status da venda conforme a autorização recebida.
+	3. O sistema processa a mensagem, extraindo o código e identificando a ação solicitada, mesmo com variações linguísticas.
+    
   - **Tecnologias Utilizadas**:
     - **Componentes do euAtendo**: Para integração com o WhatsApp e gerenciamento das mensagens.
     - **Delphi**: Desenvolvimento da aplicação que processa as mensagens e interage com o sistema de vendas.
