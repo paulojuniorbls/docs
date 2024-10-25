@@ -168,19 +168,15 @@ description: 'Vamos configurar o servidor e as instancias'
 
     ```delphi
     var
-      ErrorMsg: string;
-    begin
-      // Enviar mensagem de texto para um número específico
-      if not ApiEuAtendo1.EnviarMensagemDeTexto('+5511999999999', 'Olá! Como posso ajudar?', ErrorMsg) then
-      begin
-        ShowMessage('Erro ao enviar mensagem: ' + ErrorMsg);
-        Exit;
-      end
-      else
-      begin
-        ShowMessage('Mensagem enviada com sucesso!');
-      end;
-    end;
+		id:String;
+		begin
+		 edtIDMensagem.Text := ApiEuAtendo1.EnviarMensagemDeTexto(edtNumeroContato.Text,memoMensagemEnviar.Lines.text);
+		 edtIDMensagem.Text := ApiEuAtendo1.EnviarMensagemDeTexto('559982385000', 'Estou testando o seu componente');
+		end;
+		
+		//se o ID for retornado a mensagem foi enviada com sucesso, usar trye para tratamento de erros, com o ID
+		// da mensagem voce pode solicitar o status de enviado, entregue e lida
+
     ```
     Neste exemplo, substitua `+5511999999999` pelo número do destinatário. Caso ocorra algum erro durante o envio, a variável `ErrorMsg` retornará a descrição do erro.
   </Accordion>
