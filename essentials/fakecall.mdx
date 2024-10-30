@@ -1,48 +1,44 @@
 ---
-title: 'Ligação fake'
-description: 'Mintlify gives you complete control over the look and feel of your documentation using the mint.json file'
-icon: 'gear'
+title: 'Ligação Fake'
+description: 'Faça uma ligação simulada ao seu contato, chamando atenção assim do seu cliente'
+icon: 'phone'
 ---
 
-Esse bloco documenta como consultar o status de uma mensagem usando o método ApiEuAtendo1.StatusDaMensagem. Ele explica como passar os parâmetros corretos e exibe um exemplo de código Delphi para realizar a consulta e exibir o resultado.
+Esse bloco documenta como chamar a atenção do seu cliente através de uma ligação simulada.
 
-    Para consultar o status de uma mensagem enviada, utilize a função **ApiEuAtendo1.StatusDaMensagem**. A função requer o ID da mensagem e o número de contato, e retornará uma string com o status atual da mensagem.
+Para realizar uma ligação simulada, utilize a função **ApiEuAtendo1.FazerLigacao**. A função requer o número de telefone do contato e a duração da chamada em segundos, retornando uma string que contém o ID da ligação criada.
 
-    ## Passo a Passo para Consultar o Status da Mensagem
+## Passo a Passo para Fazer a Ligação Simulada
 
-    1. Insira o **ID da Mensagem** no campo correspondente.
-    2. Insira o **Número de Contato** que recebeu a mensagem.
-    3. Chame a função **StatusDaMensagem** passando o ID e o número de contato.
-    4. A função retornará uma string com o status da mensagem, que pode ser exibida ou utilizada para tomar ações adicionais.
+1. Insira o **Número de Telefone** do contato para o qual deseja realizar a ligação.
+2. Insira a **Duração** da ligação em segundos.
+3. Chame a função **FazerLigacao** passando o número e a duração.
+4. A função retornará um ID único da ligação, que pode ser usado para referência futura.
 
-    ### Exemplo de Código
+### Exemplo de Código
 
-    ```delphi
-    // Chamar a função para obter o status da mensagem
-    procedure TForm9.ConsultarStatusMensagem;
-    var
-      StatusMsg: string;
-    begin
-      // Chamar a função passando o ID da mensagem e o número de contato
-      StatusMsg := ApiEuAtendo1.StatusDaMensagem(edtIDMensagem.Text, edtNumeroContato.Text);
-      
-      // Exibir o status retornado
-      ShowMessage('Status da mensagem: ' + StatusMsg);
-    end;
-    ```
+```delphi
+// Chamar a função para realizar a ligação simulada
+procedure TForm9.RealizarLigacaoSimulada;
+var
+  IDLigacao: string;
+begin
+  // Chamar a função passando o número de telefone e a duração da chamada
+  IDLigacao := ApiEuAtendo1.FazerLigacao(edtNumeroTelefone.Text, StrToInt(edtDuracao.Text));
+  
+  // Exibir o ID retornado
+  ShowMessage('ID da ligação simulada: ' + IDLigacao);
+end;
+```
 
-    ## Parâmetros da Função
+## Parâmetros da Função
 
-    - `edtIDMensagem.Text`: ID da mensagem que você deseja consultar.
-    - `edtNumeroContato.Text`: Número de contato para o qual a mensagem foi enviada.
+- `edtNumeroTelefone.Text`: Número de telefone do contato que receberá a ligação.
+- `edtDuracao.Text`: Duração da ligação simulada em segundos.
 
-    ## Resultado Esperado
-    A função retornará uma string que indica o status atual da mensagem, que pode ser:
-    - **Enviado**
-    - **Entregue**
-    - **Lido**
-    - **Falha no envio**
-    - Outros estados que possam ser definidos pelo sistema.
+## Resultado Esperado
+A função retornará uma string contendo o ID da ligação criada. Esse ID pode ser utilizado para rastreamento ou referência.
 
-    ## Tratamento de Erros
-    Caso o ID da mensagem ou o número de contato não sejam válidos, a função pode retornar uma mensagem de erro. Verifique se os parâmetros foram inseridos corretamente antes de chamar a função.
+## Tratamento de Erros
+Caso o número de telefone ou a duração sejam inválidos, a função pode retornar uma mensagem de erro. Verifique se os parâmetros foram inseridos corretamente antes de chamar a função.
+
