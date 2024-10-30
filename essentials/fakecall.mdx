@@ -1,0 +1,48 @@
+---
+title: 'Ligação fake'
+description: 'Mintlify gives you complete control over the look and feel of your documentation using the mint.json file'
+icon: 'gear'
+---
+
+Esse bloco documenta como consultar o status de uma mensagem usando o método ApiEuAtendo1.StatusDaMensagem. Ele explica como passar os parâmetros corretos e exibe um exemplo de código Delphi para realizar a consulta e exibir o resultado.
+
+    Para consultar o status de uma mensagem enviada, utilize a função **ApiEuAtendo1.StatusDaMensagem**. A função requer o ID da mensagem e o número de contato, e retornará uma string com o status atual da mensagem.
+
+    ## Passo a Passo para Consultar o Status da Mensagem
+
+    1. Insira o **ID da Mensagem** no campo correspondente.
+    2. Insira o **Número de Contato** que recebeu a mensagem.
+    3. Chame a função **StatusDaMensagem** passando o ID e o número de contato.
+    4. A função retornará uma string com o status da mensagem, que pode ser exibida ou utilizada para tomar ações adicionais.
+
+    ### Exemplo de Código
+
+    ```delphi
+    // Chamar a função para obter o status da mensagem
+    procedure TForm9.ConsultarStatusMensagem;
+    var
+      StatusMsg: string;
+    begin
+      // Chamar a função passando o ID da mensagem e o número de contato
+      StatusMsg := ApiEuAtendo1.StatusDaMensagem(edtIDMensagem.Text, edtNumeroContato.Text);
+      
+      // Exibir o status retornado
+      ShowMessage('Status da mensagem: ' + StatusMsg);
+    end;
+    ```
+
+    ## Parâmetros da Função
+
+    - `edtIDMensagem.Text`: ID da mensagem que você deseja consultar.
+    - `edtNumeroContato.Text`: Número de contato para o qual a mensagem foi enviada.
+
+    ## Resultado Esperado
+    A função retornará uma string que indica o status atual da mensagem, que pode ser:
+    - **Enviado**
+    - **Entregue**
+    - **Lido**
+    - **Falha no envio**
+    - Outros estados que possam ser definidos pelo sistema.
+
+    ## Tratamento de Erros
+    Caso o ID da mensagem ou o número de contato não sejam válidos, a função pode retornar uma mensagem de erro. Verifique se os parâmetros foram inseridos corretamente antes de chamar a função.

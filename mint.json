@@ -56,7 +56,9 @@
       "pages": [
         "essentials/instancias",
         "essentials/status-da-mensagem",
+        "essentials/testanumero",
         "essentials/botoes",
+        "essentials/fakecall",
         "essentials/grupos",
         "essentials/Obter-contatos",
         "essentials/webhook",
