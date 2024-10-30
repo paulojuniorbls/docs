@@ -1,48 +1,58 @@
 ---
-title: 'Valida numero'
-description: 'Mintlify gives you complete control over the look and feel of your documentation using the mint.json file'
-icon: 'gear'
+title: 'Valida Número'
+description: 'Verifica se um determinado número possui WhatsApp válido ou não'
+icon: 'check_circle'
 ---
 
-Esse bloco documenta como consultar o status de uma mensagem usando o método ApiEuAtendo1.StatusDaMensagem. Ele explica como passar os parâmetros corretos e exibe um exemplo de código Delphi para realizar a consulta e exibir o resultado.
+Esse bloco documenta como validar se um número possui um WhatsApp ativo utilizando o método **ApiEuAtendo1.ExistWhats**. Ele explica como passar os parâmetros corretos e exibe um exemplo de código Delphi para realizar a validação e exibir o resultado.
 
-    Para consultar o status de uma mensagem enviada, utilize a função **ApiEuAtendo1.StatusDaMensagem**. A função requer o ID da mensagem e o número de contato, e retornará uma string com o status atual da mensagem.
+Para verificar se um número possui um WhatsApp válido, utilize a função **ApiEuAtendo1.ExistWhats**. A função requer o número do telefone e retornará um valor booleano indicando se o número está registrado no WhatsApp, além de uma mensagem de erro, se houver.
 
-    ## Passo a Passo para Consultar o Status da Mensagem
+## Passo a Passo para Validar o Número
 
-    1. Insira o **ID da Mensagem** no campo correspondente.
-    2. Insira o **Número de Contato** que recebeu a mensagem.
-    3. Chame a função **StatusDaMensagem** passando o ID e o número de contato.
-    4. A função retornará uma string com o status da mensagem, que pode ser exibida ou utilizada para tomar ações adicionais.
+1. Insira o **Número de Telefone** no campo correspondente.
+2. Chame a função **ExistWhats** passando o número.
+3. A função retornará `True` se o número estiver registrado no WhatsApp e `False` caso contrário.
+4. Em caso de erro, a função também preencherá a variável com uma mensagem indicando o motivo do erro.
 
-    ### Exemplo de Código
+### Exemplo de Código
 
-    ```delphi
-    // Chamar a função para obter o status da mensagem
-    procedure TForm9.ConsultarStatusMensagem;
-    var
-      StatusMsg: string;
+```delphi
+// Chamar a função para validar se o número possui WhatsApp
+procedure TForm9.ValidarNumeroWhatsApp;
+var
+  Numero, ErroMsg: string;
+  Existe: Boolean;
+begin
+  Numero := edtNumeroContato.Text; // Assume que edtNumero é um TEdit onde o número é inserido
+  try
+    Existe := ApiEuAtendo1.ExistWhats(Numero, ErroMsg);
+    if Existe then
+      memo1.Lines.add('O número ' + Numero + ' possui WhatsApp.')
+    else if ErroMsg <> '' then
+      memo1.Lines.add('Erro ao verificar o número: ' + ErroMsg)
+    else
+      memo1.Lines.add('O número ' + Numero + ' não possui WhatsApp.');
+  except
+    on E: Exception do
     begin
-      // Chamar a função passando o ID da mensagem e o número de contato
-      StatusMsg := ApiEuAtendo1.StatusDaMensagem(edtIDMensagem.Text, edtNumeroContato.Text);
-      
-      // Exibir o status retornado
-      ShowMessage('Status da mensagem: ' + StatusMsg);
+      memo1.Lines.add('Erro ao verificar o número: ' + E.Message);
     end;
-    ```
+  end;
+end;
+```
 
-    ## Parâmetros da Função
+## Parâmetros da Função
 
-    - `edtIDMensagem.Text`: ID da mensagem que você deseja consultar.
-    - `edtNumeroContato.Text`: Número de contato para o qual a mensagem foi enviada.
+- `edtNumeroContato.Text`: Número de telefone que você deseja validar.
 
-    ## Resultado Esperado
-    A função retornará uma string que indica o status atual da mensagem, que pode ser:
-    - **Enviado**
-    - **Entregue**
-    - **Lido**
-    - **Falha no envio**
-    - Outros estados que possam ser definidos pelo sistema.
+## Resultado Esperado
+A função retornará um valor booleano indicando se o número está registrado no WhatsApp:
+- **True**: O número possui WhatsApp.
+- **False**: O número não possui WhatsApp.
 
-    ## Tratamento de Erros
-    Caso o ID da mensagem ou o número de contato não sejam válidos, a função pode retornar uma mensagem de erro. Verifique se os parâmetros foram inseridos corretamente antes de chamar a função.
+Além disso, uma mensagem de erro pode ser retornada caso haja algum problema durante a verificação.
+
+## Tratamento de Erros
+Caso o número de telefone não seja válido ou ocorra algum problema durante a verificação, a função pode retornar uma mensagem de erro. Verifique se o número foi inserido corretamente antes de chamar a função.
+
