@@ -15,6 +15,8 @@ Nesta seção, você aprenderá como utilizar diferentes tipos de botões na API
 3. **Copy**: Copia automaticamente um texto ou código para a área de transferência do usuário.
 4. **Reply**: Envia uma resposta rápida, permitindo interação direta com o atendimento.
 
+Obs: O parametro da imagem é um Thumb para envio da imagem junto, caso não queira uma imagem basta deixar vazio o parametro
+
 Nesta documentação, vamos explorar cada um desses botões, apresentando exemplos práticos e dicas de uso para facilitar sua implementação e maximizar a eficiência do seu atendimento.
 
 ## Botão URL
@@ -67,7 +69,7 @@ begin
   Botao.NumeroTelefone := '+5511999999999';
   
   // Envia o botão usando o método EnviarBotao
-  ApiEuAtendo.EnviarBotao('559982385000', 'Apidevs informa', 'Precisa de ajuda? Ligue para o nosso suporte.', 'Estamos sempre prontos para ajudar', Botao);
+  ApiEuAtendo.EnviarBotao('559982385000', 'Apidevs informa', 'Precisa de ajuda? Ligue para o nosso suporte.', 'https://s33.apidevs.app/euatendo/10.png', 'Estamos sempre prontos para ajudar', Botao);
 end;
 ```
 
@@ -95,7 +97,7 @@ begin
   Botao.Codigo := 'CODIGO_PROMOCIONAL';
   
   // Envia o botão usando o método EnviarBotao
-  ApiEuAtendo.EnviarBotao('559982385000', 'Apidevs informa', 'Aproveite nosso código promocional.', 'Copie o código abaixo e use em sua próxima compra', Botao);
+  ApiEuAtendo.EnviarBotao('559982385000', 'Apidevs informa', 'Aproveite nosso código promocional.','https://s33.apidevs.app/euatendo/10.png',  'Copie o código abaixo e use em sua próxima compra', Botao);
 end;
 ```
 
@@ -123,7 +125,7 @@ begin
   Botao.Id := 'resposta_rapida_001';
   
   // Envia o botão usando o método EnviarBotao
-  ApiEuAtendo.EnviarBotao('559982385000', 'Apidevs informa', 'Por favor, responda para continuar.', 'Estamos aguardando sua resposta', Botao);
+  ApiEuAtendo.EnviarBotao('559982385000', 'Apidevs informa', 'Por favor, responda para continuar.','https://s33.apidevs.app/euatendo/10.png',  'Estamos aguardando sua resposta', Botao);
 end;
 ```
 
@@ -163,7 +165,7 @@ begin
   Botao3.NumeroTelefone := '+5511999999999';
 
   // Enviando os botões usando o método EnviarMultiplosBotoes
-  ApiEuAtendo.EnviarMultiplosBotoes('559982385000', 'Apidevs informa', 'Escolha uma das opções abaixo para continuar:', 'Estamos aqui para ajudar', [Botao1, Botao2, Botao3]);
+  ApiEuAtendo.EnviarMultiplosBotoes('559982385000', 'Apidevs informa', 'Escolha uma das opções abaixo para continuar:','https://s33.apidevs.app/euatendo/10.png',  'Estamos aqui para ajudar', [Botao1, Botao2, Botao3]);
 end;
 ```
 
