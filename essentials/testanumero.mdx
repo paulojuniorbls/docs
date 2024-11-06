@@ -1,42 +1,66 @@
 ---
-title: 'Valida Número'
-description: 'Verifica se um determinado número possui WhatsApp válido ou não'
+
+title: 'Valida Números de WhatsApp'
+description: 'Verifica se uma lista de números possui WhatsApp ativo, retornando um JSON com o status de cada número.'
 icon: 'registered'
+
 ---
 
-Esse bloco documenta como validar se um número possui um WhatsApp ativo utilizando o método **ApiEuAtendo1.ExistWhats**. Ele explica como passar os parâmetros corretos e exibe um exemplo de código Delphi para realizar a validação e exibir o resultado.
+Esse bloco documenta como validar se uma lista de números possui WhatsApp ativo utilizando o método **ApiEuAtendo1.ExistWhats**. Ele explica como passar os parâmetros corretamente e exibe um exemplo de código Delphi para realizar a validação e exibir o resultado detalhado.
 
-Para verificar se um número possui um WhatsApp válido, utilize a função **ApiEuAtendo1.ExistWhats**. A função requer o número do telefone e retornará um valor booleano indicando se o número está registrado no WhatsApp, além de uma mensagem de erro, se houver.
+## Objetivo da Função
 
-## Passo a Passo para Validar o Número
+A função **ApiEuAtendo1.ExistWhats** permite verificar se uma lista de números possui contas ativas no WhatsApp. A função aceita múltiplos números separados por vírgulas e retorna um `TJSONArray` com detalhes do status de cada número.
 
-1. Insira o **Número de Telefone** no campo correspondente.
-2. Chame a função **ExistWhats** passando o número.
-3. A função retornará `True` se o número estiver registrado no WhatsApp e `False` caso contrário.
-4. Em caso de erro, a função também preencherá a variável com uma mensagem indicando o motivo do erro.
+## Passo a Passo para Validar os Números
+
+1. Insira os **Números de Telefone** separados por vírgula no campo correspondente.
+2. Chame a função **ExistWhats** passando os números.
+3. A função retornará um `TJSONArray` com informações detalhadas sobre cada número, incluindo:
+   - **exists**: Indica se o número possui WhatsApp (`true` ou `false`).
+   - **jid**: ID do número no WhatsApp.
+   - **number**: O próprio número consultado.
+   - **name**: Nome associado ao número (se disponível).
 
 ### Exemplo de Código
 
 ```delphi
-// Chamar a função para validar se o número possui WhatsApp
-procedure TForm9.ValidarNumeroWhatsApp;
-var
-  Numero, ErroMsg: string;
-  Existe: Boolean;
+// Chamar a função para validar se os números possuem WhatsApp
 begin
-  Numero := edtNumeroContato.Text; // Assume que edtNumero é um TEdit onde o número é inserido
+  Numeros := edtNumeroContato.Text; // Assume que edtNumeroContato é um TEdit onde os números são inseridos separados por vírgula
   try
-    Existe := ApiEuAtendo1.ExistWhats(Numero, ErroMsg);
-    if Existe then
-      memo1.Lines.add('O número ' + Numero + ' possui WhatsApp.')
+    ResponseArray := ApiEuAtendo1.ExistWhats(Numeros, ErroMsg);
+    
+    if Assigned(ResponseArray) then
+    begin
+      // Itera sobre a resposta para cada número
+      for i := 0 to ResponseArray.Count - 1 do
+      begin
+        ResponseItem := ResponseArray.Items[i] as TJSONObject;
+        memo1.Lines.Add('Número: ' + ResponseItem.GetValue<string>('number'));
+        memo1.Lines.Add('JID: ' + ResponseItem.GetValue<string>('jid'));
+        memo1.Lines.Add('Existe no WhatsApp: ' + BoolToStr(ResponseItem.GetValue<Boolean>('exists'), True));
+        
+        if ResponseItem.TryGetValue<string>('name', ErroMsg) then
+          memo1.Lines.Add('Nome: ' + ErroMsg)
+        else
+          memo1.Lines.Add('Nome: Não disponível');
+
+        memo1.Lines.Add(''); // Linha em branco para separação visual entre os números
+      end;
+    end
     else if ErroMsg <> '' then
-      memo1.Lines.add('Erro ao verificar o número: ' + ErroMsg)
+    begin
+      memo1.Lines.Add('Erro ao verificar os números: ' + ErroMsg);
+    end
     else
-      memo1.Lines.add('O número ' + Numero + ' não possui WhatsApp.');
+    begin
+      memo1.Lines.Add('Nenhum número possui WhatsApp.');
+    end;
   except
     on E: Exception do
     begin
-      memo1.Lines.add('Erro ao verificar o número: ' + E.Message);
+      memo1.Lines.Add('Erro ao verificar os números: ' + E.Message);
     end;
   end;
 end;
@@ -44,15 +68,20 @@ end;
 
 ## Parâmetros da Função
 
-- `edtNumeroContato.Text`: Número de telefone que você deseja validar.
+- `edtNumeroContato.Text`: String contendo os números de telefone que você deseja validar, separados por vírgula.
 
-## Resultado Esperado
-A função retornará um valor booleano indicando se o número está registrado no WhatsApp:
-- **True**: O número possui WhatsApp.
-- **False**: O número não possui WhatsApp.
+## Estrutura do Retorno
 
-Além disso, uma mensagem de erro pode ser retornada caso haja algum problema durante a verificação.
+A função retorna um `TJSONArray` contendo um `TJSONObject` para cada número consultado. Cada objeto possui os seguintes campos:
+- **exists**: `Boolean` – Indica se o número está registrado no WhatsApp.
+- **jid**: `String` – ID do número no WhatsApp.
+- **number**: `String` – O número de telefone consultado.
+- **name**: `String` – Nome associado ao número, se disponível.
 
 ## Tratamento de Erros
-Caso o número de telefone não seja válido ou ocorra algum problema durante a verificação, a função pode retornar uma mensagem de erro. Verifique se o número foi inserido corretamente antes de chamar a função.
 
+Em caso de erro, como problemas de conexão ou formato incorreto dos números, a função preencherá a variável `ErroMsg` com uma mensagem descritiva. Verifique a mensagem de erro e garanta que os números foram inseridos no formato correto (separados por vírgula) antes de chamar a função.
+
+---
+
+Essa atualização permite ao usuário validar múltiplos números de forma eficiente e obter um relatório detalhado do status de cada número, facilitando o acompanhamento e a análise dos resultados.
