@@ -191,15 +191,12 @@ description: 'Vamos configurar o servidor e as instancias'
       ErrorMsg: string;
     begin
       // Enviar texto e arquivo para um número específico
-      if not ApiEuAtendo1.EnviarArquivo('+5511999999999', 'Segue o documento solicitado:', 'C:\Documentos\arquivo.pdf', ErrorMsg) then
-      begin
-        ShowMessage('Erro ao enviar arquivo: ' + ErrorMsg);
-        Exit;
-      end
-      else
-      begin
-        ShowMessage('Arquivo enviado com sucesso!');
-      end;
+       if FileOpenDialog1.Execute then
+		  begin
+			edtIDMensagem.Text := ApiEuAtendo1.EnviarMensagemDeMidia
+			  (edtNumeroContato.Text, '', 'teste de envio de anexo',
+			  FileOpenDialog1.FileName);
+		  end;
     end;
     ```
 
