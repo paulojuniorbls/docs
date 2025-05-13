@@ -84,28 +84,17 @@ description: 'Vamos configurar o servidor e as instancias'
     Exemplo de como gerar o QRCode:
 
     ```delphi
-    var
-      ErrorMsg: string;
     begin
-      // Chamar a função para exibir o QRCode da instância
-      if not ApiEuAtendo1.ExibirQRCode(ErrorMsg) then
-      begin
-        ShowMessage('Erro ao gerar QRCode: ' + ErrorMsg);
-        Exit;
-      end;
-      
-      ShowMessage('QRCode gerado com sucesso. Escaneie com o WhatsApp para conectar.');
+        ApiEuAtendo1.ObterQrCode;
     end;
     ```
 	
 	 Agora, precisamos implementar o evento `OnObterQrCode` para capturar o QRCode gerado em formato Base64 e exibi-lo:
 
     ```delphi
-    procedure TForm9.ApiEuAtendo1ObterQrCode(Sender: TObject;
-      const Base64QRCode: string);
     begin
       // Carregar a imagem do QRCode gerado a partir do Base64
-      LoadBase64ToImage(Base64QRCode, Image1); // Exibe o QRCode no componente Image1
+        ApiEuAtendo1.LoadBase64ToImage(Base64QRCode,Image1)
     end;
     ```
 
